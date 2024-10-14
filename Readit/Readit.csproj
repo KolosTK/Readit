@@ -12,15 +12,15 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.7"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7"/>
-        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.7"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.7"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.7"/>
+      <ProjectReference Include="..\Readit.DataAccess\Readit.DataAccess.csproj" />
+      <ProjectReference Include="..\Readit.Models\Readit.Models.csproj" />
+      <ProjectReference Include="..\Readit.Utility\Readit.Utility.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Readit.Models\Readit.Models.csproj" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.10" />
     </ItemGroup>
 
 </Project>
