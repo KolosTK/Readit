@@ -2,6 +2,7 @@ namespace Readit.Models;
 
 public class Account
 {
+    
     public User UserId { get; set; }
     public User User { get; set; }
     public string Avatar { get; set; }
