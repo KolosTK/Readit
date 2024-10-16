@@ -14,6 +14,10 @@ public class ApplicationDbContext :  IdentityDbContext
     public DbSet<Book> Books { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Account> Accounts { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<UserBook> UserBooks { get; set; }
+    public DbSet<UserLibrary> UserLibraries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
