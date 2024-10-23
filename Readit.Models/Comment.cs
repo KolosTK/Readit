@@ -18,5 +18,6 @@ public class Comment
     [Required]
     public Book Book { get; set; }
     
+    [Required]
     public string Text { get; set; }
 }
