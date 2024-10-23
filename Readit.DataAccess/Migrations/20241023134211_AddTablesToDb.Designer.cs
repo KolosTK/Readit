@@ -12,8 +12,8 @@ using Readit.DataAccess.Data;
 namespace Readit.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241016134710_AddOtherTablesToDb")]
-    partial class AddOtherTablesToDb
+    [Migration("20241023134211_AddTablesToDb")]
+    partial class AddTablesToDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -274,60 +274,51 @@ namespace Readit.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Cover")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("GlobalRate")
+                        .HasMaxLength(10)
                         .HasColumnType("int");
 
                     b.Property<string>("ISBN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
-                    b.Property<int>("PagesNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rate")
+                    b.Property<int?>("PagesNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Summary")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("YearOfPublishing")
+                    b.Property<int?>("YearOfPublishing")
                         .HasMaxLength(2024)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("Readit.Models.Category", b =>
+            modelBuilder.Entity("Readit.Models.BookGenre", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("BookId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("BookId", "GenreId");
 
-                    b.HasKey("Id");
+                    b.HasIndex("GenreId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("BookGenres");
                 });
 
             modelBuilder.Entity("Readit.Models.Comment", b =>
@@ -356,6 +347,23 @@ namespace Readit.DataAccess.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Readit.Models.Genre", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Readit.Models.UserBook", b =>
@@ -507,13 +515,23 @@ namespace Readit.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Readit.Models.Book", b =>
+            modelBuilder.Entity("Readit.Models.BookGenre", b =>
                 {
-                    b.HasOne("Readit.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+                    b.HasOne("Readit.Models.Book", "Book")
+                        .WithMany("BookGenres")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Category");
+                    b.HasOne("Readit.Models.Genre", "Genre")
+                        .WithMany("BookGenres")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Genre");
                 });
 
             modelBuilder.Entity("Readit.Models.Comment", b =>
@@ -585,6 +603,16 @@ namespace Readit.DataAccess.Migrations
                     b.Navigation("Followers");
 
                     b.Navigation("Following");
+                });
+
+            modelBuilder.Entity("Readit.Models.Book", b =>
+                {
+                    b.Navigation("BookGenres");
+                });
+
+            modelBuilder.Entity("Readit.Models.Genre", b =>
+                {
+                    b.Navigation("BookGenres");
                 });
 
             modelBuilder.Entity("Readit.Models.UserLibrary", b =>

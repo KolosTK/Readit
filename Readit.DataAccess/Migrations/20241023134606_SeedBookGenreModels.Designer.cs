@@ -12,8 +12,8 @@ using Readit.DataAccess.Data;
 namespace Readit.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241016122114_AddUserTableToDb")]
-    partial class AddUserTableToDb
+    [Migration("20241023134606_SeedBookGenreModels")]
+    partial class SeedBookGenreModels
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -236,6 +236,32 @@ namespace Readit.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Readit.Models.Account", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Accounts");
+                });
+
             modelBuilder.Entity("Readit.Models.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -248,46 +274,135 @@ namespace Readit.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Cover")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("GlobalRate")
+                        .HasMaxLength(10)
                         .HasColumnType("int");
 
                     b.Property<string>("ISBN")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(13)
+                        .HasColumnType("nvarchar(13)");
 
-                    b.Property<int>("PagesNumber")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rate")
+                    b.Property<int?>("PagesNumber")
                         .HasColumnType("int");
 
                     b.Property<string>("Summary")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("YearOfPublishing")
+                    b.Property<int?>("YearOfPublishing")
                         .HasMaxLength(2024)
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.ToTable("Books");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Author = "Markus Zusak",
+                            Cover = "cover.jpg",
+                            GlobalRate = 8,
+                            ISBN = "9781784162122",
+                            PagesNumber = 592,
+                            Summary = "It is 1939. Nazi Germany. The country is holding its breath. Death has never been busier, and will be busier still.",
+                            Title = "The Book Thief",
+                            YearOfPublishing = 2005
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Author = "Brian Tracy and Christina Stein",
+                            Cover = "cover.jpg",
+                            GlobalRate = 9,
+                            ISBN = "9781784162122",
+                            PagesNumber = 228,
+                            Summary = "Letting go of negative thoughts is one of the most important steps to living a successful, fulfilling life, but also often the most difficult. In this practical, research-based guide, bestselling authors Brian Tracy and psychotherapist Christina Stein present their \"Psychology of Achievement\" program to help you identify and overcome detrimental patterns and ideas preventing you from achieving your goals or feeling happy and satisfied in your life.",
+                            Title = "Believe it to achieve it",
+                            YearOfPublishing = 2017
+                        });
                 });
 
-            modelBuilder.Entity("Readit.Models.Category", b =>
+            modelBuilder.Entity("Readit.Models.BookGenre", b =>
+                {
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GenreId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookId", "GenreId");
+
+                    b.HasIndex("GenreId");
+
+                    b.ToTable("BookGenres");
+
+                    b.HasData(
+                        new
+                        {
+                            BookId = 2,
+                            GenreId = 1
+                        },
+                        new
+                        {
+                            BookId = 1,
+                            GenreId = 2
+                        },
+                        new
+                        {
+                            BookId = 1,
+                            GenreId = 3
+                        },
+                        new
+                        {
+                            BookId = 1,
+                            GenreId = 4
+                        },
+                        new
+                        {
+                            BookId = 1,
+                            GenreId = 5
+                        });
+                });
+
+            modelBuilder.Entity("Readit.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Readit.Models.Genre", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -301,12 +416,105 @@ namespace Readit.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Genres");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Non-Fiction"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Adventure"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Classics"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Historical"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Fiction"
+                        });
+                });
+
+            modelBuilder.Entity("Readit.Models.UserBook", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("Rate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("UserLibraryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("UserLibraryId");
+
+                    b.ToTable("UserBooks");
+                });
+
+            modelBuilder.Entity("Readit.Models.UserLibrary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLibraries");
                 });
 
             modelBuilder.Entity("Readit.Models.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<int?>("AccountId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AccountId1")
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
@@ -317,6 +525,10 @@ namespace Readit.DataAccess.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("AccountId1");
 
                     b.HasDiscriminator().HasValue("User");
                 });
@@ -372,13 +584,120 @@ namespace Readit.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Readit.Models.Account", b =>
+                {
+                    b.HasOne("Readit.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Readit.Models.BookGenre", b =>
+                {
+                    b.HasOne("Readit.Models.Book", "Book")
+                        .WithMany("BookGenres")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Readit.Models.Genre", "Genre")
+                        .WithMany("BookGenres")
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("Readit.Models.Comment", b =>
+                {
+                    b.HasOne("Readit.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Readit.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Readit.Models.UserBook", b =>
+                {
+                    b.HasOne("Readit.Models.Book", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Readit.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Readit.Models.UserLibrary", null)
+                        .WithMany("UserBooks")
+                        .HasForeignKey("UserLibraryId");
+
+                    b.Navigation("Book");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Readit.Models.UserLibrary", b =>
+                {
+                    b.HasOne("Readit.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Readit.Models.User", b =>
+                {
+                    b.HasOne("Readit.Models.Account", null)
+                        .WithMany("Followers")
+                        .HasForeignKey("AccountId");
+
+                    b.HasOne("Readit.Models.Account", null)
+                        .WithMany("Following")
+                        .HasForeignKey("AccountId1");
+                });
+
+            modelBuilder.Entity("Readit.Models.Account", b =>
+                {
+                    b.Navigation("Followers");
+
+                    b.Navigation("Following");
+                });
+
             modelBuilder.Entity("Readit.Models.Book", b =>
                 {
-                    b.HasOne("Readit.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
+                    b.Navigation("BookGenres");
+                });
 
-                    b.Navigation("Category");
+            modelBuilder.Entity("Readit.Models.Genre", b =>
+                {
+                    b.Navigation("BookGenres");
+                });
+
+            modelBuilder.Entity("Readit.Models.UserLibrary", b =>
+                {
+                    b.Navigation("UserBooks");
                 });
 #pragma warning restore 612, 618
         }
