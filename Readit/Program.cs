@@ -1,4 +1,10 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+Console.WriteLine("Connection string: " + connectionString);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
