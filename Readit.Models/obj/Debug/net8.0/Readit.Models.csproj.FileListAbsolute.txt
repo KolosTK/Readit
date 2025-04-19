@@ -1,0 +1,15 @@
+D:\Projects\Readit\Readit.Models\bin\Debug\net8.0\Readit.Models.deps.json
+D:\Projects\Readit\Readit.Models\bin\Debug\net8.0\Readit.Models.runtimeconfig.json
+D:\Projects\Readit\Readit.Models\bin\Debug\net8.0\Readit.Models.dll
+D:\Projects\Readit\Readit.Models\bin\Debug\net8.0\Readit.Models.pdb
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.csproj.AssemblyReference.cache
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.AssemblyInfoInputs.cache
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.AssemblyInfo.cs
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.csproj.CoreCompileInputs.cache
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.sourcelink.json
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.dll
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\refint\Readit.Models.dll
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.pdb
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\Readit.Models.genruntimeconfig.cache
+D:\Projects\Readit\Readit.Models\obj\Debug\net8.0\ref\Readit.Models.dll
