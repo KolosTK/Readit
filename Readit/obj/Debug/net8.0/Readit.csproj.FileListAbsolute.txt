@@ -28,3 +28,4 @@ D:\Projects\Readit\Readit\obj\Debug\net8.0\refint\Readit.dll
 D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.pdb
 D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.genruntimeconfig.cache
 D:\Projects\Readit\Readit\obj\Debug\net8.0\ref\Readit.dll
+D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.sourcelink.json
