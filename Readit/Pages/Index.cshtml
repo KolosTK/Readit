@@ -11,3 +11,32 @@
 
 <a href="/UserPage">User</a><br/>
 <a href="/AdminPage">Admin</a><br/>
+
+@if (User.IsInRole("admin"))
+{
+    <p>You're an admin!</p>
+}
+else
+{
+    <p>Not admin 😢</p>
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    if (User.IsInRole("admin"))
+    {
+        <p style="color: green;">✅ You are an ADMIN!</p>
+    }
+    else if (User.IsInRole("user"))
+    {
+        <p style="color: blue;">✅ You are a USER!</p>
+    }
+    else
+    {
+        <p style="color: red;">❌ You are logged in but have no role.</p>
+    }
+}
+else
+{
+    <p style="color: gray;">Not logged in.</p>
+}

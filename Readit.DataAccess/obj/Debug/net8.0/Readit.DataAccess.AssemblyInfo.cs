@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Readit.DataAccess")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6977c54a14b0111d7b11a97adec3ba304cef5d5c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c57df36b5b5c7f60e0a6f46ccecb7556a36d9622")]
 [assembly: System.Reflection.AssemblyProductAttribute("Readit.DataAccess")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Readit.DataAccess")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
