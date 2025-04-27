@@ -5,22 +5,13 @@ using Readit.Models;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
-
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-        /*builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();*/
-        
-        /*builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();*/
-        
         builder.Services.AddDefaultIdentity<User>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -28,16 +19,20 @@ public class Program
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Add services to the container.
         builder.Services.AddRazorPages();
 
         var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+        // ✅ Seed roles and assign them to users before app runs
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            await SeedRolesAndAdminAsync(services);
+        }
+
         if (!app.Environment.IsDevelopment())
         {
             app.UseExceptionHandler("/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
 
@@ -45,42 +40,46 @@ public class Program
         app.UseStaticFiles();
 
         app.UseRouting();
-
+        app.UseAuthentication(); 
         app.UseAuthorization();
 
         app.MapRazorPages();
 
-        /*using (var scope = app.Services.CreateScope())
+        await app.RunAsync(); 
+    }
+    
+    private static async Task SeedRolesAndAdminAsync(IServiceProvider services)
+    {
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var userManager = services.GetRequiredService<UserManager<User>>();
+
+        string[] roles = { "admin", "user" };
+
+        foreach (var role in roles)
         {
-            var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var roles = new[] { "Admin", "User" };
-            foreach (var role in roles)
+            if (!await roleManager.RoleExistsAsync(role))
             {
-                if (!await roleManager.RoleExistsAsync(role))
-                {
-                    await roleManager.CreateAsync(new IdentityRole(role));
-                }
+                await roleManager.CreateAsync(new IdentityRole(role));
             }
         }
-        
-        using (var scope = app.Services.CreateScope())
+
+        // Assign "user" role to all users who don't have it
+        var allUsers = userManager.Users.ToList();
+        foreach (var user in allUsers)
         {
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            
-            string email = "admin@readit.com";
-            string password = "Admin123!";
-            
-            if (await userManager.FindByEmailAsync(email)==null)
+            var rolesForUser = await userManager.GetRolesAsync(user);
+            if (!rolesForUser.Contains("user"))
             {
-                var user = new IdentityUser();
-                user.Email = email;
-                user.UserName = email;
-
-                await userManager.CreateAsync(user, password);
-                await userManager.AddToRoleAsync(user,"Admin");
+                await userManager.AddToRoleAsync(user, "user");
             }
-        }*/
+        }
 
-        app.Run();
+        // Optional: assign "admin" role to specific user
+        var adminEmail = "try@gmail.com";
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+        if (adminUser != null && !await userManager.IsInRoleAsync(adminUser, "admin"))
+        {
+            await userManager.AddToRoleAsync(adminUser, "admin");
+        }
     }
 }

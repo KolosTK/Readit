@@ -54,6 +54,12 @@ namespace Readit.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
+            public string FirstName { get; set; }
+            
+            [Required]
+            public string LastName { get; set; }
+            
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -83,7 +89,12 @@ namespace Readit.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = new User()
+                {
+                    Email = Input.Email,
+                    LastName = Input.LastName,
+                    FirstName = Input.FirstName
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
@@ -94,6 +105,8 @@ namespace Readit.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    await _userManager.AddToRoleAsync(user, "User");
+                    
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));

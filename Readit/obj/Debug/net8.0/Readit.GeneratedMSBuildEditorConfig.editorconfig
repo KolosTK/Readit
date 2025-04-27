@@ -54,6 +54,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/Projects/Readit/Readit/Pages/AdminPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5QYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/Readit/Readit/Pages/Admin/ManageUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlVXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Projects/Readit/Readit/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -72,6 +80,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Projects/Readit/Readit/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/Readit/Readit/Pages/UserPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlclBhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/Readit/Readit/Pages/_ViewImports.cshtml]
