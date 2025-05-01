@@ -8,48 +8,26 @@
 
 @if (Model.Books != null && Model.Books.Any())
 {
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-        @foreach (var book in Model.Books)
-        {
-            <div class="col" style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId?? 0 })'">
-
-            <div class="card h-100">
-                    @if (book.CoverId.HasValue)
-                    {
-                        <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" alt="@book.Title" />
-                    }
-                    else
-                    {
-                        <img src="https://via.placeholder.com/150x220?text=No+Cover" class="card-img-top" alt="No cover" />
-                    }
-
-                    <div class="card-body">
-                        <h5 class="card-title">@book.Title</h5>
-                        <p class="card-text">@string.Join(", ", book.AuthorName ?? new List<string> { "Unknown" })</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <span class="badge bg-secondary">Status</span><br />
-                        ⭐⭐⭐⭐⭐
-                    </div>
-                </div>
-            </div>
-        }
-
+    <div id="bookGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @await Html.PartialAsync("_BookCardsPartial", Model.Books)
     </div>
 }
 
-
-@*
 @section Scripts {
     <script>
-        function showBookDetails(coverId) {
-            fetch(`/Search?handler=Details&coverId=${coverId}`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById("bookModalContent").innerHTML = html;
-                    var modal = new bootstrap.Modal(document.getElementById('bookModal'));
-                    modal.show();
-                });
-        }
+        let offset = 12;
+        let loading = false;
+
+        window.addEventListener('scroll', async () => {
+            if (loading) return;
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                loading = true;
+                const response = await fetch(`/Search?handler=More&query=@Model.Query&offset=${offset}`);
+                const html = await response.text();
+                document.getElementById("bookGrid").insertAdjacentHTML("beforeend", html);
+                offset += 12;
+                loading = false;
+            }
+        });
     </script>
-}*@
+}

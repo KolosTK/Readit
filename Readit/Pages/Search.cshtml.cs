@@ -28,6 +28,12 @@ public class Search : PageModel
         Console.WriteLine($"Book count: {Books.Count}");
         return Page();
     }
+    public async Task<IActionResult> OnGetMoreAsync(string query, int offset)
+    {
+        var books = await _bookApiService.SearchBooksAsync(query, 12, offset);
+        return Partial("_BookCardsPartial", books);
+    }
+
     /*public IActionResult OnGetDetails(int coverId)
     {
         var book = Books.FirstOrDefault(b => b.CoverId == coverId);
