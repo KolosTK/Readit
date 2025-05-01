@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Readit.DataAccess;
 using Readit.Models;
+using Readit.Services;
 
 public class Program
 {
@@ -19,6 +20,8 @@ public class Program
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
+        builder.Services.AddHttpClient<BookApiService>();
+        
         builder.Services.AddRazorPages();
 
         var app = builder.Build();
