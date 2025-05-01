@@ -28,4 +28,11 @@ public class Search : PageModel
         Console.WriteLine($"Book count: {Books.Count}");
         return Page();
     }
+    /*public IActionResult OnGetDetails(int coverId)
+    {
+        var book = Books.FirstOrDefault(b => b.CoverId == coverId);
+        if (book == null) return NotFound();
+
+        return Partial("_BookDetailsPartial", book);
+    }*/
 }

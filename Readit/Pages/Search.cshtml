@@ -1,0 +1,55 @@
+@page
+@model Readit.Pages.Search
+
+<form method="post">
+    <input asp-for="Query" placeholder="Search for a book..." />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model.Books != null && Model.Books.Any())
+{
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var book in Model.Books)
+        {
+            <div class="col" style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId?? 0 })'">
+
+            <div class="card h-100">
+                    @if (book.CoverId.HasValue)
+                    {
+                        <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" alt="@book.Title" />
+                    }
+                    else
+                    {
+                        <img src="https://via.placeholder.com/150x220?text=No+Cover" class="card-img-top" alt="No cover" />
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">@string.Join(", ", book.AuthorName ?? new List<string> { "Unknown" })</p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <span class="badge bg-secondary">Status</span><br />
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+}
+
+
+@*
+@section Scripts {
+    <script>
+        function showBookDetails(coverId) {
+            fetch(`/Search?handler=Details&coverId=${coverId}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById("bookModalContent").innerHTML = html;
+                    var modal = new bootstrap.Modal(document.getElementById('bookModal'));
+                    modal.show();
+                });
+        }
+    </script>
+}*@

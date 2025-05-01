@@ -1,0 +1,13 @@
+@page "{coverId:int}"
+@model Readit.Pages.BookDetails
+@{
+    ViewData["Title"] = "Book Details";
+}
+
+<h2>@Model.Book.Title</h2>
+<p><strong>Author:</strong> @string.Join(", ", Model.Book.AuthorName ?? new List<string> { "Unknown" })</p>
+
+@if (Model.Book.CoverId.HasValue)
+{
+    <img src="https://covers.openlibrary.org/b/id/@(Model.Book.CoverId)-L.jpg" class="img-fluid" />
+}
