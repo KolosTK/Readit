@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Readit.Api.Models;
+using Readit.Library;
 using Readit.Services;
 
 namespace Readit.Pages;
@@ -8,6 +9,7 @@ namespace Readit.Pages;
 public class Search : PageModel
 {
     private readonly BookApiService _bookApiService;
+    private readonly LibraryService _libraryService;
 
     public Search(BookApiService bookApiService)
     {
@@ -33,4 +35,10 @@ public class Search : PageModel
         var books = await _bookApiService.SearchBooksAsync(query, 12, offset);
         return Partial("_BookCardsPartial", books);
     }
+    public async Task<IActionResult> OnPostToggleAsync([FromBody] OpenLibraryBook book)
+    {
+        var added = await _libraryService.ToggleBookAsync(book);
+        return new JsonResult(new { added });
+    }
+
 }

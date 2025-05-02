@@ -29,5 +29,29 @@
                 loading = false;
             }
         });
+
+        async function toggleLibrary(button, book) {
+            const response = await fetch("/Search?handler=Toggle", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(book)
+            });
+
+            const result = await response.json();
+
+            if (result.added) {
+                button.innerText = "Added ✅";
+                button.classList.remove("btn-outline-primary");
+                button.classList.add("btn-success");
+            } else {
+                button.innerText = "Add to Library";
+                button.classList.remove("btn-success");
+                button.classList.add("btn-outline-primary");
+            }
+}
+
+        
     </script>
 }

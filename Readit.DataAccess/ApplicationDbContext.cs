@@ -6,11 +6,13 @@ using Readit.Models;
 namespace Readit.DataAccess;
 
 public class ApplicationDbContext : IdentityDbContext<User>
+
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options) {}
 
     public DbSet<Book> Books { get; set; }
+    public DbSet<UserBook> UserBooks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

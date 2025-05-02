@@ -1,49 +1,27 @@
 @model List<Readit.Api.Models.OpenLibraryBook>
-@if (Model != null)
+
+@foreach (var book in Model)
 {
-    @foreach (var book in Model)
-    {
-        <div class="col" style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId ?? 0 })'">
-            <div class="card h-100">
+    <div class="col">
+        <div class="card h-100">
+            <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId ?? 0 })'">
                 @if (book.CoverId.HasValue)
                 {
-                    <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" alt="@book.Title"/>
+                    <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" alt="@book.Title" />
                 }
                 else
                 {
-                    <img src="https://via.placeholder.com/150x220?text=No+Cover" class="card-img-top" alt="No cover"/>
+                    <img src="https://via.placeholder.com/150x220?text=No+Cover" class="card-img-top" alt="No cover" />
                 }
 
                 <div class="card-body">
                     <h5 class="card-title">@book.Title</h5>
                     <p class="card-text">@string.Join(", ", book.AuthorName ?? new List<string> { "Unknown" })</p>
                 </div>
-                <div class="card-footer text-center">
-                    <span class="badge bg-secondary">Status</span><br/>
-                    ⭐⭐⭐⭐⭐
-                </div>
             </div>
-        </div>
-    }
-}
-
-@*
-@foreach (var book in Model)
-{
-    <div class="col">
-        <div class="card h-100" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId ?? 0 })'" style="cursor:pointer;">
-            @if (book.CoverId.HasValue)
-            {
-                <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" />
-            }
-            else
-            {
-                <img src="https://via.placeholder.com/150x220?text=No+Cover" class="card-img-top" />
-            }
-            <div class="card-body">
-                <h5 class="card-title">@book.Title</h5>
-                <p class="card-text">@string.Join(", ", book.AuthorName ?? new List<string> { "Unknown" })</p>
+            <div class="card-footer text-center">
+                <button class="btn btn-sm btn-outline-primary mt-2" onclick="event.stopPropagation(); toggleLibrary(this, @Html.Raw(Json.Serialize(book)))">Add to Library</button>
             </div>
         </div>
     </div>
-}*@
+}

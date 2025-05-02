@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Readit.DataAccess;
+using Readit.Library;
 using Readit.Models;
 using Readit.Services;
 
@@ -19,6 +20,9 @@ public class Program
             })
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
+        
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddScoped<LibraryService>();
 
         builder.Services.AddHttpClient<BookApiService>();
         
