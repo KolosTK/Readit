@@ -33,12 +33,4 @@ public class Search : PageModel
         var books = await _bookApiService.SearchBooksAsync(query, 12, offset);
         return Partial("_BookCardsPartial", books);
     }
-
-    /*public IActionResult OnGetDetails(int coverId)
-    {
-        var book = Books.FirstOrDefault(b => b.CoverId == coverId);
-        if (book == null) return NotFound();
-
-        return Partial("_BookDetailsPartial", book);
-    }*/
 }

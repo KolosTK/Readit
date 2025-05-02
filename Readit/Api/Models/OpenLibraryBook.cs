@@ -12,4 +12,7 @@ public class OpenLibraryBook
     
     [JsonPropertyName("cover_i")]
     public int? CoverId { get; set; }
+    
+    [JsonPropertyName("first_publish_year")]
+    public int? FirstPublishYear { get; set; }
 }
