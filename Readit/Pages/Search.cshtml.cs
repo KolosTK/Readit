@@ -11,9 +11,10 @@ public class Search : PageModel
     private readonly BookApiService _bookApiService;
     private readonly LibraryService _libraryService;
 
-    public Search(BookApiService bookApiService)
+    public Search(BookApiService bookApiService, LibraryService libraryService)
     {
         _bookApiService = bookApiService;
+        _libraryService = libraryService; 
     }
 
     public List<OpenLibraryBook> Books { get; set; } = new();

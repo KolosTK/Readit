@@ -16,5 +16,5 @@ public class OpenLibraryBook
     [JsonPropertyName("first_publish_year")]
     public int? FirstPublishYear { get; set; }
     [JsonPropertyName("key")]
-    public string Key { get; set; }
+    public string? Key { get; set; }
 }
