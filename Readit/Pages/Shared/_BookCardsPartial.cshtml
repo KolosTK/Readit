@@ -19,14 +19,16 @@
                     <p class="card-text">@string.Join(", ", book.AuthorName ?? new List<string> { "Unknown" })</p>
                 </div>
             </div>
-            <button type="button" class="btn btn-outline-primary"
+            <button type="button"
+                    class="btn @(book.IsInLibrary ? "btn-success" : "btn-outline-primary")"
+                    disabled="@(book.IsInLibrary)"
                     onclick='event.stopPropagation(); toggleLibrary(this, {
                         title: "@book.Title",
                     authorName: @Html.Raw(Json.Serialize(book.AuthorName ?? new List<string>())),
                     coverId: @(book.CoverId ?? 0),
                     key: "@book.Key"
                     })'>
-                Add to Library
+                @(book.IsInLibrary ? "Added ✅" : "Add to Library")
             </button>
         </div>
     </div>

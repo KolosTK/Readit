@@ -17,4 +17,6 @@ public class OpenLibraryBook
     public int? FirstPublishYear { get; set; }
     [JsonPropertyName("key")]
     public string? Key { get; set; }
+    [JsonIgnore] 
+    public bool IsInLibrary { get; set; }
 }

@@ -27,10 +27,20 @@ public class Search : PageModel
         if (!string.IsNullOrWhiteSpace(Query))
         {
             Books = await _bookApiService.SearchBooksAsync(Query);
+
+            var userBooks = await _libraryService.GetUserBooksAsync();
+            var userBookKeys = userBooks.Select(b => b.WorkKey).ToHashSet();
+
+            foreach (var book in Books)
+            {
+                book.IsInLibrary = userBookKeys.Contains(book.Key);
+            }
         }
-        Console.WriteLine($"Book count: {Books.Count}");
+
         return Page();
     }
+
+
     public async Task<IActionResult> OnGetMoreAsync(string query, int offset)
     {
         var books = await _bookApiService.SearchBooksAsync(query, 12, offset);
