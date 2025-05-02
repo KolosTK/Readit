@@ -10,6 +10,6 @@ public class OpenLibraryBook
     [JsonPropertyName("author_name")]
     public List<string> AuthorName { get; set; }
     
-    [JsonPropertyName("cover_id")]
+    [JsonPropertyName("cover_i")]
     public int? CoverId { get; set; }
 }
