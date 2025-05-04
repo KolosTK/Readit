@@ -1,11 +1,24 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Readit.Models;
 
 public enum ReadingStatus
 {
-    PlanToRead,
+    [Display(Name = "Not Started")]
+    NotStarted,
+    
+    [Display(Name = "Reading")]
     Reading,
-    Finished,
+    
+    [Display(Name = "Completed")]
+    Completed,
+    
+    [Display(Name = "On Hold")]
     OnHold,
+    
+    [Display(Name = "Dropped")]
     Dropped,
-    Rereading
+    
+    [Display(Name = "Planned")]
+    Planned
 }

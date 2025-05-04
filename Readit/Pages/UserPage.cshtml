@@ -4,6 +4,20 @@
     ViewData["Title"] = "User Profile";
 }
 
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+
+@functions {
+    string GetDisplayName(Enum value)
+    {
+        return value.GetType()
+            .GetMember(value.ToString())
+            .First()
+            .GetCustomAttribute<DisplayAttribute>()?
+            .GetName() ?? value.ToString();
+    }
+}
+
 <div class="container my-4">
     <div class="row mb-4">
         <div class="col-auto">
@@ -46,6 +60,15 @@
                             })'>
                         Remove
                     </button>
+                    <select class="form-select mt-2" onchange="updateStatus(this.value, '@book.WorkKey')">
+                        @foreach (Readit.Models.ReadingStatus status in Enum.GetValues(typeof(Readit.Models.ReadingStatus)))
+                        {
+                            <option value="@status" selected="@(book.Status == status)">
+                                @GetDisplayName(status)
+                            </option>
+                        }
+                    </select>
+
                 </div>
             </div>
         }
@@ -67,6 +90,20 @@
 
             if (!result.added) {
                 button.closest(".col").remove();
+            }
+        }
+        async function updateStatus(status, key) {
+            const response = await fetch('/UserPage?handler=UpdateStatus', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ key, status })
+            });
+
+            const result = await response.json();
+            if (!result.success) {
+                alert("❌ Failed to update status.");
             }
         }
     </script>
