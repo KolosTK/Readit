@@ -1,0 +1,55 @@
+@page
+@model Readit.Pages.Search
+
+<form method="post">
+    <input asp-for="Query" placeholder="Search for a book..." />
+    <button type="submit">Search</button>
+</form>
+
+@if (Model.Books != null && Model.Books.Any())
+{
+    <div id="bookGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @await Html.PartialAsync("_BookCardsPartial", Model.Books)
+    </div>
+}
+
+@section Scripts {
+    <script>
+        let offset = 12;
+        let loading = false;
+
+        window.addEventListener('scroll', async () => {
+            if (loading) return;
+            if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+                loading = true;
+                const response = await fetch(`/Search?handler=More&query=@Model.Query&offset=${offset}`);
+                const html = await response.text();
+                document.getElementById("bookGrid").insertAdjacentHTML("beforeend", html);
+                offset += 12;
+                loading = false;
+            }
+        });
+
+        async function toggleLibrary(button, book) {
+            const response = await fetch("/Search?handler=Toggle", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(book)
+            });
+
+            const result = await response.json();
+
+            if (result.added) {
+                button.innerText = "Remove";
+                button.classList.remove("btn-outline-primary");
+                button.classList.add("btn-danger");
+            } else {
+                button.innerText = "Add to Library";
+                button.classList.remove("btn-danger");
+                button.classList.add("btn-outline-primary");
+            }
+        }
+    </script>
+}

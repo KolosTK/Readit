@@ -1,0 +1,46 @@
+@page "{coverId:int}"
+@model Readit.Pages.BookDetails
+@{
+    ViewData["Title"] = "Book Details";
+}
+
+<div class="container mt-4">
+<div class="card p-4">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            @if (Model.Book.CoverId.HasValue)
+            {
+                <img src="https://covers.openlibrary.org/b/id/@(Model.Book.CoverId)-L.jpg" class="img-fluid mb-3" />
+            }
+            else
+            {
+                <div class="border bg-light text-muted p-5">No Cover</div>
+            }
+
+            <!-- Mock Stars -->
+            <div style="font-size: 1.5rem;">
+                ★★★★★
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <h2>@Model.Book.Title</h2>
+            <p><strong>Author:</strong> @string.Join(", ", Model.Book.AuthorName ?? new List<string> { "Unknown" })</p>
+            <p><strong>Year:</strong> @Model.Book.FirstPublishYear</p>
+
+            <div class="d-flex gap-2 mb-3">
+                <button class="btn btn-outline-primary">Status</button>
+                <button class="btn btn-outline-secondary">Rate</button>
+            </div>
+            
+            <h4>Comments</h4>
+            <div class="border p-2 rounded bg-white">
+                <div class="mb-2 border-bottom pb-2">
+                    <strong>username</strong><br />
+                    <span>Some comment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+</div>

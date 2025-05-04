@@ -1,0 +1,73 @@
+@page
+@model Readit.Pages.UserPage
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="container my-4">
+    <div class="row mb-4">
+        <div class="col-auto">
+            <img src="https://via.placeholder.com/100" class="rounded" alt="User avatar" />
+        </div>
+        <div class="col">
+            <h2>@Model.Username</h2>
+            <p><strong>11</strong> followers &nbsp; <strong>11</strong> following &nbsp; <strong>@Model.Books.Count</strong> books</p>
+        </div>
+    </div>
+
+    <h3>Books</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @foreach (var book in Model.Books)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId ?? 0 })'">
+                        @if (book.CoverId.HasValue && book.CoverId > 0)
+                        {
+                            <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" />
+                        }
+                        else
+                        {
+                            <img src="https://via.placeholder.com/150x220?text=No+Cover" class="card-img-top" />
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title">@book.Title</h5>
+                            <p class="card-text">@book.Authors</p>
+                        </div>
+                    </div>
+                    <button type="button"
+                            class="btn btn-danger"
+                            onclick='event.stopPropagation(); toggleLibrary(this, {
+                                title: "@book.Title",
+                            authorName: @Html.Raw(Json.Serialize(book.Authors?.Split(", ").ToList() ?? new List<string>())),
+                            coverId: @(book.CoverId ?? 0),
+                            key: "@book.WorkKey"
+                            })'>
+                        Remove
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        async function toggleLibrary(button, book) {
+            const response = await fetch("/Search?handler=Toggle", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(book)
+            });
+
+            const result = await response.json();
+
+            if (!result.added) {
+                button.closest(".col").remove();
+            }
+        }
+    </script>
+}

@@ -1,0 +1,36 @@
+@model List<Readit.Api.Models.OpenLibraryBook>
+
+@foreach (var book in Model)
+{
+    <div class="col">
+        <div class="card h-100">
+            <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId ?? 0 })'">
+                @if (book.CoverId.HasValue)
+                {
+                    <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" alt="@book.Title" />
+                }
+                else
+                {
+                    <img src="https://via.placeholder.com/150x220?text=No+Cover" class="card-img-top" alt="No cover" />
+                }
+
+                <div class="card-body">
+                    <h5 class="card-title">@book.Title</h5>
+                    <p class="card-text">@string.Join(", ", book.AuthorName ?? new List<string> { "Unknown" })</p>
+                </div>
+            </div>
+            <button type="button"
+                    class="btn @(book.IsInLibrary ? "btn-danger" : "btn-outline-primary")"
+                    onclick='event.stopPropagation(); toggleLibrary(this, {
+                        title: @Json.Serialize(book.Title),
+                    author_name: @Html.Raw(Json.Serialize(book.AuthorName ?? new List<string>())),
+                    cover_i: @(book.CoverId ?? 0),
+                    key: @Json.Serialize(book.Key)
+                    })'>
+                @(book.IsInLibrary ? "Remove" : "Add to Library")
+            </button>
+
+
+        </div>
+    </div>
+}
