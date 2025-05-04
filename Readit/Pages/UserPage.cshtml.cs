@@ -27,7 +27,7 @@ public class UserPage : PageModel
         var user = await _userManager.GetUserAsync(User);
         if (user == null) return;
 
-        Username = user.UserName!;
+        Username = user.FirstName!;
         Books = await _context.UserBooks
             .Where(b => b.UserId == user.Id)
             .ToListAsync();

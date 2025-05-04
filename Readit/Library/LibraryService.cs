@@ -37,12 +37,17 @@ public class LibraryService
         var userBook = new UserBook
         {
             UserId = user.Id,
-            Title = book.Title!,
+            Title = book.Title ?? "Untitled",
             Authors = book.AuthorName != null ? string.Join(", ", book.AuthorName) : null,
+            /*CoverId = book.CoverId.HasValue && book.CoverId > 0 ? book.CoverId : null,*/
             CoverId = book.CoverId,
-            WorkKey = book.Key
+            WorkKey = book.Key ?? ""
         };
-
+        Console.WriteLine("📥 Received book from client:");
+        Console.WriteLine($"Title: {book.Title}");
+        Console.WriteLine($"CoverId: {book.CoverId}");
+        Console.WriteLine($"Key: {book.Key}");
+        
         _context.UserBooks.Add(userBook);
         await _context.SaveChangesAsync();
         return true;

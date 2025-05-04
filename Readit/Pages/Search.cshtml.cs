@@ -24,10 +24,10 @@ public class Search : PageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
+        
         if (!string.IsNullOrWhiteSpace(Query))
         {
             Books = await _bookApiService.SearchBooksAsync(Query);
-
             var userBooks = await _libraryService.GetUserBooksAsync();
             var userBookKeys = userBooks.Select(b => b.WorkKey).ToHashSet();
 
@@ -36,7 +36,6 @@ public class Search : PageModel
                 book.IsInLibrary = userBookKeys.Contains(book.Key);
             }
         }
-
         return Page();
     }
 

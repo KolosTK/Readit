@@ -22,13 +22,14 @@
             <button type="button"
                     class="btn @(book.IsInLibrary ? "btn-danger" : "btn-outline-primary")"
                     onclick='event.stopPropagation(); toggleLibrary(this, {
-                        title: "@book.Title",
-                    authorName: @Html.Raw(Json.Serialize(book.AuthorName ?? new List<string>())),
-                    coverId: @(book.CoverId ?? 0),
-                    key: "@book.Key"
+                        title: @Json.Serialize(book.Title),
+                    author_name: @Html.Raw(Json.Serialize(book.AuthorName ?? new List<string>())),
+                    cover_i: @(book.CoverId ?? 0),
+                    key: @Json.Serialize(book.Key)
                     })'>
                 @(book.IsInLibrary ? "Remove" : "Add to Library")
             </button>
+
 
         </div>
     </div>
