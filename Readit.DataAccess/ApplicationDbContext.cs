@@ -13,6 +13,8 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
     public DbSet<Book> Books { get; set; }
     public DbSet<UserBook> UserBooks { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
