@@ -1,4 +1,4 @@
-@page "{coverId:int}"
+@page "{workKey?}"
 @model Readit.Pages.BookDetails
 @{
     ViewData["Title"] = "Book Details";
@@ -32,14 +32,39 @@
                 <button class="btn btn-outline-primary">Status</button>
                 <button class="btn btn-outline-secondary">Rate</button>
             </div>
-            
+
             <h4>Comments</h4>
+
             <div class="border p-2 rounded bg-white">
-                <div class="mb-2 border-bottom pb-2">
-                    <strong>username</strong><br />
-                    <span>Some comment</span>
-                </div>
+                @if (Model.Comments.Any())
+                {
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <div class="mb-2 border-bottom pb-2">
+                            <strong>@comment.User.FirstName</strong><br />
+                            <span>@comment.Text</span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No comments yet.</p>
+                }
+
+                @if (User.Identity?.IsAuthenticated ?? false)
+                {
+                    <form method="post" asp-page-handler="AddComment">
+                        <textarea name="text" rows="3" class="form-control mb-2" placeholder="Leave a comment..."></textarea>
+                        <input type="hidden" name="workKey" value="@Model.Book.Key" />
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                }
+                else
+                {
+                    <p><em>You must be logged in to comment.</em></p>
+                }
             </div>
+            
         </div>
     </div>
 </div>  

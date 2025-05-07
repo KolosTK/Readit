@@ -20,4 +20,22 @@ public class BookApiService
         var searchResult = JsonSerializer.Deserialize<OpenLibrarySearchResult>(response);
         return searchResult?.Docs ?? new List<OpenLibraryBook>();
     }
+    public async Task<OpenLibraryBook?> GetBookDetailsByKeyAsync(string workKey)
+    {
+        if (string.IsNullOrWhiteSpace(workKey))
+            return null;
+
+        var searchUrl = $"https://openlibrary.org/search.json?q={workKey}";
+        var searchResponse = await _httpClient.GetAsync(searchUrl);
+        if (!searchResponse.IsSuccessStatusCode)
+            return null;
+
+        var searchJson = await searchResponse.Content.ReadAsStringAsync();
+        var searchData = JsonSerializer.Deserialize<OpenLibrarySearchResult>(searchJson);
+
+        var book = searchData?.Docs?.FirstOrDefault(b => b.Key?.EndsWith(workKey) == true);
+        return book;
+    }
+
+
 }

@@ -5,15 +5,15 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Readit.Models;
 using Readit.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Readit.Services;
 
 namespace Readit.Pages;
-
 [Authorize]
 public class UserPage : PageModel
 {
     private readonly UserManager<User> _userManager;
     private readonly ApplicationDbContext _context;
-   
+
     public string Username { get; set; } = "";
     public List<UserBook> Books { get; set; } = new();
 
@@ -22,7 +22,7 @@ public class UserPage : PageModel
         _userManager = userManager;
         _context = context;
     }
-    
+
     public async Task OnGetAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -33,6 +33,7 @@ public class UserPage : PageModel
             .Where(b => b.UserId == user.Id)
             .ToListAsync();
     }
+
     public class UpdateStatusRequest
     {
         public string Key { get; set; }
@@ -53,5 +54,4 @@ public class UserPage : PageModel
         await _context.SaveChangesAsync();
         return new JsonResult(new { success = true });
     }
-
 }

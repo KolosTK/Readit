@@ -45,7 +45,7 @@ public class Search : PageModel
         var books = await _bookApiService.SearchBooksAsync(query, 12, offset);
         return Partial("_BookCardsPartial", books);
     }
-    public async Task<IActionResult> OnPostToggleAsync([FromBody] OpenLibraryBook book)
+    public async Task<IActionResult> OnPostToggleAasync([FromBody] OpenLibraryBook book)
     {
         var added = await _libraryService.ToggleBookAsync(book);
         return new JsonResult(new { added });

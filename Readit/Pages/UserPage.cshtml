@@ -1,4 +1,4 @@
-@page
+@page 
 @model Readit.Pages.UserPage
 @{
     ViewData["Title"] = "User Profile";
@@ -35,8 +35,8 @@
         {
             <div class="col">
                 <div class="card h-100">
-                    <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId ?? 0 })'">
-                        @if (book.CoverId.HasValue && book.CoverId > 0)
+                    <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { workKey = book.WorkKey.Split('/').Last() })'">
+                    @if (book.CoverId.HasValue && book.CoverId > 0)
                         {
                             <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" />
                         }

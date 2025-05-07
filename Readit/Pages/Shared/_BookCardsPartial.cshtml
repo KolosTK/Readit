@@ -4,10 +4,10 @@
 {
     <div class="col">
         <div class="card h-100">
-            <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId ?? 0 })'">
+            <a href="@Url.Page("/BookDetails", new { workKey = book.Key.Split('/').Last() })" style="text-decoration: none; color: inherit;">
                 @if (book.CoverId.HasValue)
                 {
-                    <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" alt="@book.Title" />
+                    <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-L.jpg" class="img-fluid mb-3" />
                 }
                 else
                 {
@@ -18,19 +18,18 @@
                     <h5 class="card-title">@book.Title</h5>
                     <p class="card-text">@string.Join(", ", book.AuthorName ?? new List<string> { "Unknown" })</p>
                 </div>
-            </div>
+            </a>
+
             <button type="button"
                     class="btn @(book.IsInLibrary ? "btn-danger" : "btn-outline-primary")"
                     onclick='event.stopPropagation(); toggleLibrary(this, {
-                        title: @Json.Serialize(book.Title),
+                    title: @Json.Serialize(book.Title),
                     author_name: @Html.Raw(Json.Serialize(book.AuthorName ?? new List<string>())),
                     cover_i: @(book.CoverId ?? 0),
                     key: @Json.Serialize(book.Key)
-                    })'>
+                })'>
                 @(book.IsInLibrary ? "Remove" : "Add to Library")
             </button>
-
-
         </div>
     </div>
 }
