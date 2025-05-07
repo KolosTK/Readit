@@ -1,5 +1,18 @@
 @page "{workKey?}"
 @model Readit.Pages.BookDetails
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@functions {
+    string GetDisplayName(Enum value)
+    {
+        return value.GetType()
+            .GetMember(value.ToString())
+            .First()
+            .GetCustomAttribute<DisplayAttribute>()?.GetName() ?? value.ToString();
+    }
+}
 @{
     ViewData["Title"] = "Book Details";
 }
@@ -16,11 +29,6 @@
             {
                 <div class="border bg-light text-muted p-5">No Cover</div>
             }
-
-            <!-- Mock Stars -->
-            <div style="font-size: 1.5rem;">
-                ★★★★★
-            </div>
         </div>
 
         <div class="col-md-8">
@@ -29,7 +37,10 @@
             <p><strong>Year:</strong> @Model.Book.FirstPublishYear</p>
 
             <div class="d-flex gap-2 mb-3">
-                <button class="btn btn-outline-primary">Status</button>
+                @if (Model.UserBookStatus != null)
+                {
+                    <p><strong>Status:</strong> @GetDisplayName(Model.UserBookStatus.Value)</p>
+                }
                 <button class="btn btn-outline-secondary">Rate</button>
             </div>
 

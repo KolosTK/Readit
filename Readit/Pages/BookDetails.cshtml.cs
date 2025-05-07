@@ -14,6 +14,7 @@ public class BookDetails : PageModel
     private readonly BookApiService _bookApiService;
     private readonly ApplicationDbContext _context;
     private readonly UserManager<User> _userManager;
+    public ReadingStatus? UserBookStatus { get; set; }
 
     public BookDetails(BookApiService bookApiService, ApplicationDbContext context, UserManager<User> userManager)
     {
@@ -30,10 +31,22 @@ public class BookDetails : PageModel
 
     public async Task<IActionResult> OnGetAsync(string workKey)
     {
-        var book = await _bookApiService.GetBookDetailsByKeyAsync(workKey); // implement this method
+        var book = await _bookApiService.GetBookDetailsByKeyAsync(workKey);
         if (book == null) return NotFound();
 
         Book = book;
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user != null)
+        {
+            var userBook = await _context.UserBooks
+                .FirstOrDefaultAsync(ub => ub.UserId == user.Id && ub.WorkKey.EndsWith(workKey));
+
+            if (userBook != null)
+            {
+                UserBookStatus = userBook.Status;
+            }
+        }
 
         Comments = await _context.Comments
             .Include(c => c.User)
