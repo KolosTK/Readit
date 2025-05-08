@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\NoCover.png",
+      "PackagePath": "staticwebassets\\images\\NoCover.png"
+    },
+    {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0rv5GBJm+PMNW5XRTS3LJdaf01dDtW//XEsX62xCoww=",
+  "Hash": "bC8tc4KA1be0R3gcECYuMviPjmvn8OMgT6NPqQN+rBk=",
   "Source": "Readit",
   "BasePath": "_content/Readit",
   "Mode": "Default",
@@ -1231,6 +1231,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.ico"
+    },
+    {
+      "Identity": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\NoCover.png",
+      "SourceId": "Readit",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\Readit\\Readit\\wwwroot\\",
+      "BasePath": "_content/Readit",
+      "RelativePath": "images/NoCover.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\NoCover.png"
     },
     {
       "Identity": "D:\\Projects\\Readit\\Readit\\wwwroot\\js\\site.js",
