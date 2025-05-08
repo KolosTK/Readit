@@ -34,11 +34,14 @@ public class Search : PageModel
         if (Mode == "books" && !string.IsNullOrWhiteSpace(Query))
         {
             Books = await _bookApiService.SearchBooksAsync(Query);
-            var userBooks = await _libraryService.GetUserBooksAsync();
-            var userBookKeys = userBooks.Select(b => b.WorkKey).ToHashSet();
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var userBooks = await _libraryService.GetUserBooksAsync();
+                var userBookKeys = userBooks.Select(b => b.WorkKey).ToHashSet();
 
-            foreach (var book in Books)
-                book.IsInLibrary = userBookKeys.Contains(book.Key);
+                foreach (var book in Books)
+                    book.IsInLibrary = userBookKeys.Contains(book.Key);
+            }
         }
         else if (Mode == "friends" && !string.IsNullOrWhiteSpace(Query))
         {
