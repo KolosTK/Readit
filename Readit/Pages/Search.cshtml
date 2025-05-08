@@ -64,6 +64,11 @@ else if (Model.Mode == "friends")
 
             const result = await response.json();
 
+            if (result.unauthorized) {
+                alert("❌ You must be logged in to add books to your library.");
+                return;
+            }
+
             if (result.added) {
                 button.innerText = "Remove";
                 button.classList.remove("btn-outline-primary");
@@ -74,6 +79,7 @@ else if (Model.Mode == "friends")
                 button.classList.add("btn-outline-primary");
             }
         }
+        
         function switchMode(mode) {
             document.getElementById('modeInput').value = mode;
             document.forms[0].submit();

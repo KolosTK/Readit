@@ -67,6 +67,11 @@ public class Search : PageModel
     }
     public async Task<IActionResult> OnPostToggleAsync([FromBody] OpenLibraryBook book)
     {
+        if (!User.Identity?.IsAuthenticated ?? true)
+        {
+            return new JsonResult(new { added = false, unauthorized = true });
+        }
+
         var added = await _libraryService.ToggleBookAsync(book);
         return new JsonResult(new { added });
     }
