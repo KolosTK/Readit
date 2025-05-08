@@ -42,8 +42,13 @@ public class Search : PageModel
         }
         else if (Mode == "friends" && !string.IsNullOrWhiteSpace(Query))
         {
+            var normalizedQuery = Query.ToLower();
+
             Users = await _context.Users
-                .Where(u => u.UserName.Contains(Query) || u.FirstName.Contains(Query))
+                .Where(u =>
+                    (u.FirstName + " " + u.LastName).ToLower().Contains(normalizedQuery) ||
+                    u.FirstName.ToLower().Contains(normalizedQuery) ||
+                    u.LastName.ToLower().Contains(normalizedQuery))
                 .ToListAsync();
         }
 
