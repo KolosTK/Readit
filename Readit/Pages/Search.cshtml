@@ -1,17 +1,40 @@
 @page
 @model Readit.Pages.Search
+<div class="d-flex gap-3 mb-3">
+    <button type="button" class="btn @(Model.Mode == "books" ? "btn-primary" : "btn-outline-primary")"
+            onclick="switchMode('books')">Books</button>
+
+    <button type="button" class="btn @(Model.Mode == "friends" ? "btn-primary" : "btn-outline-primary")"
+            onclick="switchMode('friends')">Friends</button>
+</div>
 
 <form method="post">
-    <input asp-for="Query" placeholder="Search for a book..." />
+    <input type="hidden" name="Mode" value="@Model.Mode" id="modeInput" />
+    <input asp-for="Query" placeholder="Search for a book..."/>
     <button type="submit">Search</button>
 </form>
 
-@if (Model.Books != null && Model.Books.Any())
+@if (Model.Mode == "books")
 {
     <div id="bookGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         @await Html.PartialAsync("_BookCardsPartial", Model.Books)
     </div>
 }
+else if (Model.Mode == "friends")
+{
+    <div class="list-group">
+        @foreach (var user in Model.Users)
+        {
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>@user.FirstName</strong> (@user.UserName)
+                </div>
+                <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary">View Profile</a>
+            </div>
+        }
+    </div>
+}
+
 
 @section Scripts {
     <script>
@@ -50,6 +73,10 @@
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-outline-primary");
             }
+        }
+        function switchMode(mode) {
+            document.getElementById('modeInput').value = mode;
+            document.forms[0].submit();
         }
     </script>
 }
