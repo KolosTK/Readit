@@ -14,8 +14,11 @@ public class Search : PageModel
     private readonly ApplicationDbContext _context;
     private readonly BookApiService _bookApiService;
     private readonly LibraryService _libraryService;
-    [BindProperty]
+    [BindProperty(SupportsGet = true)]
     public string Mode { get; set; } = "books";
+
+    [BindProperty(SupportsGet = true)]
+    public string Query { get; set; } = "";
     public List<User> Users { get; set; } = new();
     public Search(BookApiService bookApiService, LibraryService libraryService,ApplicationDbContext context)
     {
@@ -26,10 +29,33 @@ public class Search : PageModel
 
     public List<OpenLibraryBook> Books { get; set; } = new();
 
-    [BindProperty]
-    public string Query { get; set; }
-
     public async Task<IActionResult> OnPostAsync()
+    {
+        if (Mode == "books" && !string.IsNullOrWhiteSpace(Query))
+        {
+            Books = await _bookApiService.SearchBooksAsync(Query);
+            var userBooks = await _libraryService.GetUserBooksAsync();
+            var userBookKeys = userBooks.Select(b => b.WorkKey).ToHashSet();
+
+            foreach (var book in Books)
+                book.IsInLibrary = userBookKeys.Contains(book.Key);
+        }
+        else if (Mode == "friends" && !string.IsNullOrWhiteSpace(Query))
+        {
+            var normalizedQuery = Query.ToLower();
+
+            Users = await _context.Users
+                .Where(u =>
+                    (u.FirstName + " " + u.LastName).ToLower().Contains(normalizedQuery) ||
+                    u.FirstName.ToLower().Contains(normalizedQuery) ||
+                    u.LastName.ToLower().Contains(normalizedQuery))
+                .ToListAsync();
+        }
+
+        return Page();
+    }
+
+    public async Task<IActionResult> OnGetAsync()
     {
         if (Mode == "books" && !string.IsNullOrWhiteSpace(Query))
         {
@@ -67,11 +93,6 @@ public class Search : PageModel
     }
     public async Task<IActionResult> OnPostToggleAsync([FromBody] OpenLibraryBook book)
     {
-        if (!User.Identity?.IsAuthenticated ?? true)
-        {
-            return new JsonResult(new { added = false, unauthorized = true });
-        }
-
         var added = await _libraryService.ToggleBookAsync(book);
         return new JsonResult(new { added });
     }

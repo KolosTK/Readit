@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "bC8tc4KA1be0R3gcECYuMviPjmvn8OMgT6NPqQN+rBk=",
+  "Hash": "QYRO13oxvshQ1f6sXeKKH+vTrtIStFFVThLk8SRnpS4=",
   "Source": "Readit",
   "BasePath": "_content/Readit",
   "Mode": "Default",
@@ -1193,6 +1193,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\Projects\\Readit\\Readit\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Readit.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\21e57f77-7a2f-498e-9cff-48941ce75649.png",
+      "SourceId": "Readit",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Projects\\Readit\\Readit\\wwwroot\\",
+      "BasePath": "_content/Readit",
+      "RelativePath": "avatars/21e57f77-7a2f-498e-9cff-48941ce75649.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\avatars\\21e57f77-7a2f-498e-9cff-48941ce75649.png"
     },
     {
       "Identity": "D:\\Projects\\Readit\\Readit\\wwwroot\\css\\site.css",

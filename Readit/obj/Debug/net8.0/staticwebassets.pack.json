@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Readit.bundle.scp.css"
     },
     {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\21e57f77-7a2f-498e-9cff-48941ce75649.png",
+      "PackagePath": "staticwebassets\\avatars\\21e57f77-7a2f-498e-9cff-48941ce75649.png"
+    },
+    {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

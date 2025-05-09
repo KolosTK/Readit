@@ -13,6 +13,8 @@ public class UserPage : PageModel
 {
     private readonly UserManager<User> _userManager;
     private readonly ApplicationDbContext _context;
+    public User CurrentUser { get; set; } = null!;
+
 
     public string Username { get; set; } = "";
     public List<UserBook> Books { get; set; } = new();
@@ -25,12 +27,12 @@ public class UserPage : PageModel
 
     public async Task OnGetAsync()
     {
-        var user = await _userManager.GetUserAsync(User);
-        if (user == null) return;
+        CurrentUser = await _userManager.GetUserAsync(User);
+        if (CurrentUser == null) return;
 
-        Username = user.FirstName!;
+        Username = CurrentUser.FirstName!;
         Books = await _context.UserBooks
-            .Where(b => b.UserId == user.Id)
+            .Where(b => b.UserId == CurrentUser.Id)
             .ToListAsync();
     }
 
@@ -54,4 +56,29 @@ public class UserPage : PageModel
         await _context.SaveChangesAsync();
         return new JsonResult(new { success = true });
     }
+    
+    [BindProperty]
+    public IFormFile? AvatarUpload { get; set; }
+
+    public async Task<IActionResult> OnPostUploadAvatarAsync()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null || AvatarUpload == null || AvatarUpload.Length == 0)
+            return RedirectToPage();
+
+        var fileName = $"{user.Id}{Path.GetExtension(AvatarUpload.FileName)}";
+        var savePath = Path.Combine("wwwroot", "avatars", fileName);
+
+        using (var stream = new FileStream(savePath, FileMode.Create))
+        {
+            await AvatarUpload.CopyToAsync(stream);
+        }
+
+        user.AvatarFileName = fileName;
+        await _userManager.UpdateAsync(user);
+
+        return RedirectToPage();
+    }
+
+
 }

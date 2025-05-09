@@ -21,7 +21,23 @@
 <div class="container my-4">
     <div class="row mb-4">
         <div class="col-auto">
-            <img src="https://via.placeholder.com/100" class="rounded" alt="User avatar" />
+            <div class="text-center">
+                <img src="@(Model.CurrentUser?.AvatarFileName != null
+                              ? $"/avatars/{Model.CurrentUser.AvatarFileName}"
+                              : "https://via.placeholder.com/100")"
+                     class="rounded-circle border"
+                     style="width: 120px; height: 120px; object-fit: cover;"
+                     alt="Avatar" />
+
+
+
+                <form method="post" enctype="multipart/form-data" asp-page-handler="UploadAvatar" class="mt-2">
+                    <input type="file" name="AvatarUpload" class="form-control form-control-sm mb-1" />
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Change Avatar</button>
+                </form>
+            </div>
+           
+
         </div>
         <div class="col">
             <h2>@Model.Username</h2>

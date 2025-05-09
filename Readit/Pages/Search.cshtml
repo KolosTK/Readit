@@ -8,11 +8,12 @@
             onclick="switchMode('friends')">Friends</button>
 </div>
 
-<form method="post">
+<form method="get">
     <input type="hidden" name="Mode" value="@Model.Mode" id="modeInput" />
-    <input asp-for="Query" placeholder="Search for a book..."/>
+    <input asp-for="Query" placeholder="Search for a book or user..." />
     <button type="submit">Search</button>
 </form>
+
 
 @if (Model.Mode == "books")
 {
@@ -64,11 +65,6 @@ else if (Model.Mode == "friends")
 
             const result = await response.json();
 
-            if (result.unauthorized) {
-                alert("❌ You must be logged in to add books to your library.");
-                return;
-            }
-
             if (result.added) {
                 button.innerText = "Remove";
                 button.classList.remove("btn-outline-primary");
@@ -79,10 +75,17 @@ else if (Model.Mode == "friends")
                 button.classList.add("btn-outline-primary");
             }
         }
-        
         function switchMode(mode) {
-            document.getElementById('modeInput').value = mode;
-            document.forms[0].submit();
+            const queryInput = document.querySelector('[name="Query"]');
+            const query = queryInput ? queryInput.value : "";
+            const url = new URL(window.location.href);
+            url.searchParams.set("Mode", mode);
+            if (query) {
+                url.searchParams.set("Query", query);
+            } else {
+                url.searchParams.delete("Query"); // optional: clean URL if no query
+            }
+            window.location.href = url.toString();
         }
     </script>
 }
