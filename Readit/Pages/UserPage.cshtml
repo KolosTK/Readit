@@ -42,7 +42,17 @@
         </div>
         <div class="col">
             <h2>@Model.Username</h2>
-            <p><strong>11</strong> followers &nbsp; <strong>11</strong> following &nbsp; <strong>@Model.Books.Count</strong> books</p>
+            <p>
+                <a asp-page="/FollowersList" asp-route-id="@Model.CurrentUser.Id" class="me-3">
+                    <strong>@Model.FollowingCount</strong> following
+                </a>
+                <a asp-page="/FollowersList" asp-route-id="@Model.CurrentUser.Id" class="me-3">
+                    <strong>@Model.FollowersCount</strong> followers
+                </a>
+                <strong>@Model.Books.Count</strong> books
+            </p>
+
+
         </div>
     </div>
 

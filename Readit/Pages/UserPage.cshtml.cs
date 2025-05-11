@@ -13,6 +13,9 @@ public class UserPage : PageModel
 {
     private readonly UserManager<User> _userManager;
     private readonly ApplicationDbContext _context;
+    public int FollowersCount { get; set; }
+    public int FollowingCount { get; set; }
+
     public User CurrentUser { get; set; } = null!;
 
 
@@ -39,11 +42,18 @@ public class UserPage : PageModel
         }
 
         if (CurrentUser == null) return NotFound();
-
+        
+        
         Username = CurrentUser.FirstName!;
         Books = await _context.UserBooks
             .Where(b => b.UserId == CurrentUser.Id)
             .ToListAsync();
+        
+        FollowersCount = await _context.Friendships
+            .CountAsync(f => f.FolloweeId == CurrentUser.Id);
+
+        FollowingCount = await _context.Friendships
+            .CountAsync(f => f.FollowerId == CurrentUser.Id);
 
         return Page();
     }
