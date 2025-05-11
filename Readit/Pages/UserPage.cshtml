@@ -23,12 +23,11 @@
     <div class="row mb-4">
         <div class="col-auto">
             <div class="text-center">
-                <img src="@(Model.CurrentUser?.AvatarFileName != null
-                              ? $"/avatars/{Model.CurrentUser.AvatarFileName}"
-                              : "https://via.placeholder.com/100")"
+                <img src="/avatars/@Model.CurrentUser.AvatarFileName"
                      class="rounded-circle border"
                      style="width: 120px; height: 120px; object-fit: cover;"
                      alt="Avatar" />
+
 
 
 
