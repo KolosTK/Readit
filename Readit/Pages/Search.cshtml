@@ -30,8 +30,14 @@ else if (Model.Mode == "friends")
                 <div>
                     <strong>@user.FirstName @user.LastName</strong>
                 </div>
-                <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary">View Profile</a>
+                <form method="post" asp-page-handler="@(Model.FriendIds.Contains(user.Id) ? "RemoveFriend" : "AddFriend")" asp-route-id="@user.Id" class="d-inline">
+                    <button class="btn btn-sm @(Model.FriendIds.Contains(user.Id) ? "btn-danger" : "btn-success")" type="submit">
+                        @(Model.FriendIds.Contains(user.Id) ? "Remove Friend" : "Add Friend")
+                    </button>
+                </form>
 
+                <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary">View Profile</a>
+                
             </div>
         }
     </div>

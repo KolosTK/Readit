@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -20,11 +21,14 @@ public class Search : PageModel
     [BindProperty(SupportsGet = true)]
     public string Query { get; set; } = "";
     public List<User> Users { get; set; } = new();
-    public Search(BookApiService bookApiService, LibraryService libraryService,ApplicationDbContext context)
+    public List<string> FriendIds { get; set; } = new();
+    private readonly UserManager<User> _userManager;
+    public Search(BookApiService bookApiService, LibraryService libraryService,ApplicationDbContext context, UserManager<User> userManager)
     {
         _bookApiService = bookApiService;
         _libraryService = libraryService; 
         _context = context;
+        _userManager = userManager;
     }
 
     public List<OpenLibraryBook> Books { get; set; } = new();
@@ -80,7 +84,14 @@ public class Search : PageModel
                     u.LastName.ToLower().Contains(normalizedQuery))
                 .ToListAsync();
         }
-
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser != null)
+        {
+            FriendIds = await _context.Friendships
+                .Where(f => f.FollowerId == currentUser.Id)
+                .Select(f => f.FolloweeId)
+                .ToListAsync();
+        }
         return Page();
     }
 
@@ -95,6 +106,35 @@ public class Search : PageModel
     {
         var added = await _libraryService.ToggleBookAsync(book);
         return new JsonResult(new { added });
+    }
+    
+    public async Task<IActionResult> OnPostAddFriendAsync(string id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null || id == currentUser.Id) return RedirectToPage();
+
+        if (!_context.Friendships.Any(f => f.FollowerId == currentUser.Id && f.FolloweeId == id))
+        {
+            _context.Friendships.Add(new Friendship { FollowerId = currentUser.Id, FolloweeId = id });
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToPage(new { Mode, Query });
+    }
+
+    public async Task<IActionResult> OnPostRemoveFriendAsync(string id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+        var friendship = await _context.Friendships
+            .FirstOrDefaultAsync(f => f.FollowerId == currentUser.Id && f.FolloweeId == id);
+
+        if (friendship != null)
+        {
+            _context.Friendships.Remove(friendship);
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToPage(new { Mode, Query });
     }
 
 }
