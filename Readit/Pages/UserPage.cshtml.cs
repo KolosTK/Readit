@@ -25,16 +25,29 @@ public class UserPage : PageModel
         _context = context;
     }
 
-    public async Task OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(string? id)
     {
-        CurrentUser = await _userManager.GetUserAsync(User);
-        if (CurrentUser == null) return;
+        if (!string.IsNullOrEmpty(id))
+        {
+            // Viewing another user's profile
+            CurrentUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+        else
+        {
+            // Viewing your own profile
+            CurrentUser = await _userManager.GetUserAsync(User);
+        }
+
+        if (CurrentUser == null) return NotFound();
 
         Username = CurrentUser.FirstName!;
         Books = await _context.UserBooks
             .Where(b => b.UserId == CurrentUser.Id)
             .ToListAsync();
+
+        return Page();
     }
+
 
     public class UpdateStatusRequest
     {
