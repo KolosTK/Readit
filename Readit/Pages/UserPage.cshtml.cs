@@ -105,8 +105,10 @@ public class UserPage : PageModel
         user.AvatarFileName = fileName;
         await _userManager.UpdateAsync(user);
 
-        return RedirectToPage();
+        // ✅ Redirect with id so avatar updates on reload
+        return RedirectToPage(new { id = user.Id });
     }
+
 
     public async Task<IActionResult> OnPostFollowAsync(string id)
     {

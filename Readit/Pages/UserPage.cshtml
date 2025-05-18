@@ -23,14 +23,29 @@
     <div class="row mb-4">
         <div class="col-auto">
             <div class="text-center">
-                <img src="/avatars/@Model.CurrentUser.AvatarFileName"
+                <img src="/avatars/@Model.CurrentUser.AvatarFileName?ts=@DateTime.Now.Ticks"
                      class="rounded-circle border"
                      style="width: 120px; height: 120px; object-fit: cover;"
                      alt="Avatar" />
-                <form method="post" enctype="multipart/form-data" asp-page-handler="UploadAvatar" class="mt-2">
-                    <input type="file" name="AvatarUpload" class="form-control form-control-sm mb-1" />
-                    <button type="submit" class="btn btn-sm btn-outline-primary">Change Avatar</button>
+                <form method="post"
+                      enctype="multipart/form-data"
+                      asp-page-handler="UploadAvatar"
+                      id="avatarForm"
+                      class="mt-2">
+
+                    <input type="file"
+                           id="avatarInput"
+                           name="AvatarUpload"
+                           style="display:none;"
+                           onchange="document.getElementById('avatarForm').submit();" />
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-primary"
+                            onclick="document.getElementById('avatarInput').click();">
+                        Change Avatar
+                    </button>
                 </form>
+
             </div>
            
 
