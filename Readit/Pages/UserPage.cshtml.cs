@@ -17,8 +17,7 @@ public class UserPage : PageModel
     public int FollowingCount { get; set; }
 
     public User CurrentUser { get; set; } = null!;
-
-
+    public bool IsFollowing { get; set; }
     public string Username { get; set; } = "";
     public List<UserBook> Books { get; set; } = new();
     public bool IsSelf { get; set; }
@@ -43,6 +42,12 @@ public class UserPage : PageModel
 
         IsSelf = loggedInUser != null && loggedInUser.Id == CurrentUser.Id;
 
+        if (!IsSelf && loggedInUser != null)
+        {
+            IsFollowing = await _context.Friendships
+                .AnyAsync(f => f.FollowerId == loggedInUser.Id && f.FolloweeId == CurrentUser.Id);
+        }
+        
         Username = CurrentUser.FirstName!;
         Books = await _context.UserBooks
             .Where(b => b.UserId == CurrentUser.Id)
@@ -103,5 +108,43 @@ public class UserPage : PageModel
         return RedirectToPage();
     }
 
+    public async Task<IActionResult> OnPostFollowAsync(string id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null || currentUser.Id == id) return RedirectToPage(new { id });
+
+        bool alreadyFollowing = await _context.Friendships
+            .AnyAsync(f => f.FollowerId == currentUser.Id && f.FolloweeId == id);
+
+        if (!alreadyFollowing)
+        {
+            _context.Friendships.Add(new Friendship
+            {
+                FollowerId = currentUser.Id,
+                FolloweeId = id
+            });
+
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToPage(new { id });
+    }
+
+    public async Task<IActionResult> OnPostUnfollowAsync(string id)
+    {
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null || currentUser.Id == id) return RedirectToPage(new { id });
+
+        var friendship = await _context.Friendships
+            .FirstOrDefaultAsync(f => f.FollowerId == currentUser.Id && f.FolloweeId == id);
+
+        if (friendship != null)
+        {
+            _context.Friendships.Remove(friendship);
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToPage(new { id });
+    }
 
 }

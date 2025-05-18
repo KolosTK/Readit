@@ -27,10 +27,6 @@
                      class="rounded-circle border"
                      style="width: 120px; height: 120px; object-fit: cover;"
                      alt="Avatar" />
-
-
-
-
                 <form method="post" enctype="multipart/form-data" asp-page-handler="UploadAvatar" class="mt-2">
                     <input type="file" name="AvatarUpload" class="form-control form-control-sm mb-1" />
                     <button type="submit" class="btn btn-sm btn-outline-primary">Change Avatar</button>
@@ -51,8 +47,35 @@
                 <strong>@Model.Books.Count</strong> books
             </p>
 
+            @if (!Model.IsSelf && User.Identity?.IsAuthenticated == true)
+            {
+                @if (Model.IsFollowing)
+                {
+                    <form method="post"
+                          asp-page-handler="Unfollow"
+                          asp-route-id="@Model.CurrentUser.Id"
+                          class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Unfollow
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <form method="post"
+                          asp-page-handler="Follow"
+                          asp-route-id="@Model.CurrentUser.Id"
+                          class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-success">
+                            Follow
+                        </button>
+                    </form>
+                }
+            }
 
         </div>
+       
+
     </div>
 
     <h3>Books</h3>
