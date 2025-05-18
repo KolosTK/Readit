@@ -14,6 +14,16 @@ public class BookDetails : PageModel
     private readonly BookApiService _bookApiService;
     private readonly ApplicationDbContext _context;
     private readonly UserManager<User> _userManager;
+    [BindProperty]
+    public string WorkKey { get; set; } = null!;
+    
+    [BindProperty]
+    public int? EditCommentId { get; set; }
+
+    [BindProperty]
+    public string? EditedCommentText { get; set; }
+
+
     public ReadingStatus? UserBookStatus { get; set; }
 
     public BookDetails(BookApiService bookApiService, ApplicationDbContext context, UserManager<User> userManager)
@@ -25,6 +35,8 @@ public class BookDetails : PageModel
 
     public OpenLibraryBook Book { get; set; } = null!;
     public List<Comment> Comments { get; set; } = new();
+    public string CommentText { get; set; }
+
 
     [BindProperty]
     public string? NewCommentText { get; set; }
@@ -35,6 +47,7 @@ public class BookDetails : PageModel
         if (book == null) return NotFound();
 
         Book = book;
+        WorkKey = workKey;
 
         var user = await _userManager.GetUserAsync(User);
         if (user != null)
@@ -59,27 +72,75 @@ public class BookDetails : PageModel
 
    
 
-    public async Task<IActionResult> OnPostAddCommentAsync(int coverId)
+   
+    public async Task<IActionResult> OnPostAddCommentAsync()
     {
         var user = await _userManager.GetUserAsync(User);
-        if (user == null || string.IsNullOrWhiteSpace(NewCommentText))
-            return RedirectToPage(new { coverId });
-
-        var books = await _bookApiService.SearchBooksAsync("harry potter"); // same temp logic
-        Book = books.FirstOrDefault(b => b.CoverId == coverId || coverId == 0);
-        if (Book == null || string.IsNullOrEmpty(Book.Key)) return NotFound();
+        if (user == null || string.IsNullOrWhiteSpace(NewCommentText)) return RedirectToPage(new { workKey = WorkKey });
 
         var comment = new Comment
         {
-            UserId = user.Id,
-            WorkKey = Book.Key,
             Text = NewCommentText!,
+            UserId = user.Id,
+            WorkKey = WorkKey,
             CreatedAt = DateTime.UtcNow
         };
 
         _context.Comments.Add(comment);
         await _context.SaveChangesAsync();
 
-        return RedirectToPage(new { coverId });
+        return RedirectToPage(new { workKey = WorkKey });
     }
+    public async Task<IActionResult> OnPostEditCommentAsync()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null || EditCommentId == null || string.IsNullOrWhiteSpace(EditedCommentText))
+            return RedirectToPage(new { workKey = WorkKey });
+
+        var comment = await _context.Comments.FindAsync(EditCommentId);
+        if (comment == null || comment.UserId != user.Id)
+            return Forbid();
+
+        comment.Text = EditedCommentText!;
+        await _context.SaveChangesAsync();
+
+        return RedirectToPage(new { workKey = WorkKey });
+    }
+
+    public async Task<IActionResult> OnPostEditCommentFormAsync(int id)
+    {
+        var comment = await _context.Comments.Include(c => c.User).FirstOrDefaultAsync(c => c.Id == id);
+        if (comment == null) return NotFound();
+
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null || comment.UserId != user.Id) return Forbid();
+
+        WorkKey = comment.WorkKey;
+        EditCommentId = id;
+        EditedCommentText = comment.Text;
+
+        await OnGetAsync(comment.WorkKey); // reload book and comments
+        return Page();
+    }
+
+
+    public async Task<IActionResult> OnPostDeleteCommentAsync(int id)
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) return Unauthorized();
+
+        var comment = await _context.Comments.Include(c => c.User).FirstOrDefaultAsync(c => c.Id == id);
+        if (comment == null) return NotFound();
+
+        var isAuthor = comment.UserId == user.Id;
+        var isAdmin = await _userManager.IsInRoleAsync(user, "admin");
+
+        if (!isAuthor && !isAdmin) return Forbid();
+
+        _context.Comments.Remove(comment);
+        await _context.SaveChangesAsync();
+
+        return RedirectToPage(new { workKey = comment.WorkKey }); // this line must use comment.WorkKey
+    }
+
 }

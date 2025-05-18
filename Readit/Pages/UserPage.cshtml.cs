@@ -21,34 +21,33 @@ public class UserPage : PageModel
 
     public string Username { get; set; } = "";
     public List<UserBook> Books { get; set; } = new();
+    public bool IsSelf { get; set; }
 
     public UserPage(UserManager<User> userManager, ApplicationDbContext context)
     {
         _userManager = userManager;
         _context = context;
     }
+    
 
     public async Task<IActionResult> OnGetAsync(string? id)
     {
-        if (!string.IsNullOrEmpty(id))
-        {
-            // Viewing another user's profile
-            CurrentUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-        }
-        else
-        {
-            // Viewing your own profile
-            CurrentUser = await _userManager.GetUserAsync(User);
-        }
+        var loggedInUser = await _userManager.GetUserAsync(User);
 
+        // if id is not passed, use current user
+        var targetUserId = id ?? loggedInUser?.Id;
+        if (targetUserId == null) return NotFound();
+
+        CurrentUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == targetUserId);
         if (CurrentUser == null) return NotFound();
-        
-        
+
+        IsSelf = loggedInUser != null && loggedInUser.Id == CurrentUser.Id;
+
         Username = CurrentUser.FirstName!;
         Books = await _context.UserBooks
             .Where(b => b.UserId == CurrentUser.Id)
             .ToListAsync();
-        
+
         FollowersCount = await _context.Friendships
             .CountAsync(f => f.FolloweeId == CurrentUser.Id);
 
@@ -57,6 +56,7 @@ public class UserPage : PageModel
 
         return Page();
     }
+
 
 
     public class UpdateStatusRequest
