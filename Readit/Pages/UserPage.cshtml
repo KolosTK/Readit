@@ -27,24 +27,28 @@
                      class="rounded-circle border"
                      style="width: 120px; height: 120px; object-fit: cover;"
                      alt="Avatar" />
-                <form method="post"
-                      enctype="multipart/form-data"
-                      asp-page-handler="UploadAvatar"
-                      id="avatarForm"
-                      class="mt-2">
+                @if (Model.IsSelf)
+                {
+                    <form method="post"
+                          enctype="multipart/form-data"
+                          asp-page-handler="UploadAvatar"
+                          id="avatarForm"
+                          class="mt-2">
 
-                    <input type="file"
-                           id="avatarInput"
-                           name="AvatarUpload"
-                           style="display:none;"
-                           onchange="document.getElementById('avatarForm').submit();" />
+                        <input type="file"
+                               id="avatarInput"
+                               name="AvatarUpload"
+                               style="display:none;"
+                               onchange="document.getElementById('avatarForm').submit();" />
 
-                    <button type="button"
-                            class="btn btn-sm btn-outline-primary"
-                            onclick="document.getElementById('avatarInput').click();">
-                        Change Avatar
-                    </button>
-                </form>
+                        <button type="button"
+                                class="btn btn-sm btn-outline-primary"
+                                onclick="document.getElementById('avatarInput').click();">
+                            Change Avatar
+                        </button>
+                    </form>
+                }
+
 
             </div>
            

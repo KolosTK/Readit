@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Readit.Models;
 
 namespace Readit.Api.Models;
 
@@ -18,6 +19,8 @@ public class OpenLibraryBook
     }*/
     [JsonPropertyName("cover_i")]
     public int? CoverId { get; set; }
+    public List<User>? AddedByUsers { get; set; } = new();
+
     
     [JsonPropertyName("first_publish_year")]
     public int? FirstPublishYear { get; set; }
