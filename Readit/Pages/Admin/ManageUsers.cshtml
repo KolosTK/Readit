@@ -13,6 +13,8 @@
     <thead>
     <tr>
         <th>Email</th>
+        <th>First name</th>
+        <th>Last name</th>
         <th>Roles</th>
         <th>Actions</th>
     </tr>
@@ -22,6 +24,8 @@
     {
         <tr>
             <td>@user.Email</td>
+            <td>@user.FirstName</td>
+            <td>@user.LastName</td>
             <td>@string.Join(", ", await UserManager.GetRolesAsync(user))</td>
             <td>
                 @if (!await UserManager.IsInRoleAsync(user, "admin"))

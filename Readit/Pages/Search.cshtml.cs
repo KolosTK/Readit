@@ -110,7 +110,9 @@ public class Search : PageModel
                 CoverId = group.First().CoverId,
                 AddedByUsers = group.Select(ub => ub.User).ToList()
             })
+            .OrderByDescending(b => b.AddedByUsers.Count) // ✅ Sort by number of friends who added this book
             .ToList();
+
     }
 
     if (currentUser != null)
