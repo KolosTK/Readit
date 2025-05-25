@@ -30,6 +30,20 @@
                 <img src="~/images/NoCover.png"
                      class="img-fluid" style="max-height: 100%; max-width: 100%;" alt="No Cover" />
             }
+            <form method="post" asp-page-handler="Rate" class="d-inline">
+                <input type="hidden" name="WorkKey" value="@Model.WorkKey" />
+                <div id="rating-stars" class="mb-3">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <button type="submit" name="SelectedRating" value="@i"
+                                class="btn btn-link p-0"
+                                style="font-size: 2rem; text-decoration: none;">
+                            @(Model.UserRating.HasValue && Model.UserRating >= i ? "★" : "☆")
+                        </button>
+                    }
+                </div>
+            </form>
+
         </div>
 
         <div class="col-md-8">

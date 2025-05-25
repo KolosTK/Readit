@@ -14,6 +14,7 @@ public class BookDetails : PageModel
     private readonly BookApiService _bookApiService;
     private readonly ApplicationDbContext _context;
     private readonly UserManager<User> _userManager;
+
     [BindProperty]
     public string WorkKey { get; set; } = null!;
     
@@ -23,8 +24,13 @@ public class BookDetails : PageModel
     [BindProperty]
     public string? EditedCommentText { get; set; }
 
+    [BindProperty]
+    public string? NewCommentText { get; set; }
 
     public ReadingStatus? UserBookStatus { get; set; }
+    public OpenLibraryBook Book { get; set; } = null!;
+    public List<Comment> Comments { get; set; } = new();
+    public int? UserRating { get; set; }
 
     public BookDetails(BookApiService bookApiService, ApplicationDbContext context, UserManager<User> userManager)
     {
@@ -32,14 +38,6 @@ public class BookDetails : PageModel
         _context = context;
         _userManager = userManager;
     }
-
-    public OpenLibraryBook Book { get; set; } = null!;
-    public List<Comment> Comments { get; set; } = new();
-    public string CommentText { get; set; }
-
-
-    [BindProperty]
-    public string? NewCommentText { get; set; }
 
     public async Task<IActionResult> OnGetAsync(string workKey)
     {
@@ -58,6 +56,7 @@ public class BookDetails : PageModel
             if (userBook != null)
             {
                 UserBookStatus = userBook.Status;
+                UserRating = userBook.Rating;
             }
         }
 
@@ -70,13 +69,11 @@ public class BookDetails : PageModel
         return Page();
     }
 
-   
-
-   
     public async Task<IActionResult> OnPostAddCommentAsync()
     {
         var user = await _userManager.GetUserAsync(User);
-        if (user == null || string.IsNullOrWhiteSpace(NewCommentText)) return RedirectToPage(new { workKey = WorkKey });
+        if (user == null || string.IsNullOrWhiteSpace(NewCommentText))
+            return RedirectToPage(new { workKey = WorkKey });
 
         var comment = new Comment
         {
@@ -91,6 +88,7 @@ public class BookDetails : PageModel
 
         return RedirectToPage(new { workKey = WorkKey });
     }
+
     public async Task<IActionResult> OnPostEditCommentAsync()
     {
         var user = await _userManager.GetUserAsync(User);
@@ -119,10 +117,9 @@ public class BookDetails : PageModel
         EditCommentId = id;
         EditedCommentText = comment.Text;
 
-        await OnGetAsync(comment.WorkKey); // reload book and comments
+        await OnGetAsync(comment.WorkKey);
         return Page();
     }
-
 
     public async Task<IActionResult> OnPostDeleteCommentAsync(int id)
     {
@@ -140,7 +137,36 @@ public class BookDetails : PageModel
         _context.Comments.Remove(comment);
         await _context.SaveChangesAsync();
 
-        return RedirectToPage(new { workKey = comment.WorkKey }); // this line must use comment.WorkKey
+        return RedirectToPage(new { workKey = comment.WorkKey });
     }
 
+    public async Task<IActionResult> OnPostRateAsync()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null) return Unauthorized();
+
+        var formWorkKey = Request.Form["WorkKey"];
+        var formRating = Request.Form["SelectedRating"];
+
+        if (!int.TryParse(formRating, out int rating) || rating < 1 || rating > 5)
+            return BadRequest();
+
+        var userBook = await _context.UserBooks
+            .FirstOrDefaultAsync(ub => ub.UserId == user.Id && ub.WorkKey.EndsWith(formWorkKey));
+
+        if (userBook == null)
+            return NotFound();
+
+        userBook.Rating = rating;
+        await _context.SaveChangesAsync();
+
+        return RedirectToPage(new { workKey = formWorkKey });
+    }
+
+
+    public class RatingRequest
+    {
+        public string WorkKey { get; set; } = null!;
+        public int SelectedRating { get; set; }
+    }
 }

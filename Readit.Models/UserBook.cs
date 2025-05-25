@@ -12,4 +12,5 @@ public class UserBook
     public User User { get; set; } = null!;
     
     public ReadingStatus Status { get; set; } = ReadingStatus.Planned;
+    public int? Rating { get; set; }
 }
