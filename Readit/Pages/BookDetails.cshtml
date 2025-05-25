@@ -1,4 +1,5 @@
 @page "{workKey?}"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Readit.Pages.BookDetailsLocalizer> Localizer
 @model Readit.Pages.BookDetails
 @using System.ComponentModel.DataAnnotations
 @using System.Reflection
@@ -48,20 +49,20 @@
 
         <div class="col-md-8">
             <h2>@Model.Book.Title</h2>
-            <p><strong>Author:</strong> @string.Join(", ", Model.Book.AuthorName ?? new List<string> { "Unknown" })</p>
-            <p><strong>Year:</strong> @Model.Book.FirstPublishYear</p>
+            <p><strong>@Localizer["Author"]:</strong> @string.Join(", ", Model.Book.AuthorName ?? new List<string> { "Unknown" })</p>
+            <p><strong>@Localizer["Year"]:</strong> @Model.Book.FirstPublishYear</p>
 
             <div class="d-flex gap-2 mb-3">
                 @if (Model.UserBookStatus != null)
                 {
-                    <p><strong>Status:</strong> @GetDisplayName(Model.UserBookStatus.Value)</p>
+                    <p><strong>@Localizer["Status"]:</strong> @GetDisplayName(Model.UserBookStatus.Value)</p>
                 }
             </div>
 
             <form method="post" asp-page-handler="AddComment">
                 <input type="hidden" asp-for="WorkKey" />
-                <textarea class="form-control" asp-for="NewCommentText" placeholder="Add a comment..."></textarea>
-                <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+                <textarea class="form-control" asp-for="NewCommentText" placeholder="@Localizer["Add a comment..."]"></textarea>
+                <button type="submit" class="btn btn-primary mt-2">@Localizer["Post Comment"]</button>
             </form>
 
 
@@ -103,8 +104,8 @@
                             <input type="hidden" asp-for="WorkKey" />
                             <input type="hidden" asp-for="EditCommentId" />
                             <textarea class="form-control" asp-for="EditedCommentText">@comment.Text</textarea>
-                            <button type="submit" class="btn btn-primary mt-2">Save</button>
-                            <a href="@Url.Page("BookDetails", new { workKey = Model.WorkKey })" class="btn btn-secondary mt-2 ms-2">Cancel</a>
+                            <button type="submit" class="btn btn-primary mt-2">@Localizer["Save"]</button>
+                            <a href="@Url.Page("BookDetails", new { workKey = Model.WorkKey })" class="btn btn-secondary mt-2 ms-2">@Localizer["Cancel"]</a>
                         </form>
                     }
                     else
@@ -128,7 +129,7 @@
                                     @if (isAuthor)
                                     {
                                         <form method="post" asp-page-handler="EditCommentForm" asp-route-id="@comment.Id" class="d-inline">
-                                            <button type="submit" class="btn btn-sm btn-outline-secondary me-2">Edit</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary me-2">@Localizer["Edit"]</button>
                                         </form>
                                     }
                                     <form method="post"
@@ -136,7 +137,7 @@
                                           asp-route-id="@comment.Id"
                                           class="d-inline"
                                           onsubmit="return confirm('Are you sure you want to delete this comment?');">
-                                        <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                                        <button class="btn btn-sm btn-danger" type="submit">@Localizer["Delete"]</button>
                                     </form>
 
                                 </div>
@@ -146,9 +147,6 @@
                     }
                 </div>
             }
-
-
-
         </div>
     </div>
 </div>  

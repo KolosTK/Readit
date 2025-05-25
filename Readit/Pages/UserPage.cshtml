@@ -1,4 +1,6 @@
+
 @page "{id?}"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Readit.Pages.UserPageLocalizer> Localizer
 @model Readit.Pages.UserPage
 
 @{
@@ -44,7 +46,7 @@
                         <button type="button"
                                 class="btn btn-sm btn-outline-primary"
                                 onclick="document.getElementById('avatarInput').click();">
-                            Change Avatar
+                            @Localizer["Change Avatar"]
                         </button>
                     </form>
                 }
@@ -58,24 +60,24 @@
             <h2>@Model.Username</h2>
             <p>
                 <a asp-page="/FollowersList" asp-route-id="@Model.CurrentUser.Id" class="me-3">
-                    <strong>@Model.FollowingCount</strong> following
+                    <strong>@Model.FollowingCount</strong> @Localizer["following"]
                 </a>
                 <a asp-page="/FollowersList" asp-route-id="@Model.CurrentUser.Id" class="me-3">
-                    <strong>@Model.FollowersCount</strong> followers
+                    <strong>@Model.FollowersCount</strong> @Localizer["followers"]
                 </a>
-                <strong>@Model.Books.Count</strong> books
+                <strong>@Model.Books.Count</strong> @Localizer["books"]
             </p>
 
             @if (!Model.IsSelf && User.Identity?.IsAuthenticated == true)
             {
                 @if (Model.IsFollowing)
                 {
-                    <form method="post"
+                    <form method="post"         
                           asp-page-handler="Unfollow"
                           asp-route-id="@Model.CurrentUser.Id"
                           class="d-inline">
                         <button type="submit" class="btn btn-sm btn-danger">
-                            Unfollow
+                            @Localizer["Unfollow"]
                         </button>
                     </form>
                 }
@@ -86,7 +88,7 @@
                           asp-route-id="@Model.CurrentUser.Id"
                           class="d-inline">
                         <button type="submit" class="btn btn-sm btn-success">
-                            Follow
+                            @Localizer["Follow"]
                         </button>
                     </form>
                 }
@@ -97,48 +99,48 @@
 
     </div>
 
-    <h3>Books</h3>
+    <h3>@Localizer["Library"]</h3>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         @foreach (var book in Model.Books)
         {
-           
-           <div class="col">
-    <div class="card h-100 d-flex flex-column" style="height: 100%;">
-        <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { workKey = book.WorkKey.Split('/').Last() })'">
-            <div class="d-flex align-items-center justify-content-center bg-light"
-                 style="height: 300px; overflow: hidden;">
-                @if (book.CoverId.HasValue && book.CoverId > 0)
-                {
-                    <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-L.jpg"
-                         class="img-fluid" style="max-height: 100%; max-width: 100%;" />
-                }
-                else
-                {
-                    <img src="~/images/NoCover.png"
-                         class="img-fluid" style="max-height: 100%; max-width: 100%;" alt="No Cover" />
-                }
-            </div>
 
-            <div class="card-body d-flex flex-column justify-content-between" style="min-height: 130px;">
-                <h5 class="card-title">@book.Title</h5>
-                <p class="card-text">@book.Authors</p>
-                @if (book.Rating.HasValue)
-                {
-                    <div class="text-warning" style="font-size: 1.2rem;" title="@book.Rating.Value/5">
-                        @{
-                            for (int i = 1; i <= 5; i++)
-                            {
-                                <text>@(i <= book.Rating ? "★" : "☆")</text>
+            <div class="col">
+            <div class="card h-100 d-flex flex-column" style="height: 100%;">
+            <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { workKey = book.WorkKey.Split('/').Last() })'">
+                <div class="d-flex align-items-center justify-content-center bg-light"
+                     style="height: 300px; overflow: hidden;">
+                    @if (book.CoverId.HasValue && book.CoverId > 0)
+                    {
+                        <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-L.jpg"
+                             class="img-fluid" style="max-height: 100%; max-width: 100%;"/>
+                    }
+                    else
+                    {
+                        <img src="~/images/NoCover.png"
+                             class="img-fluid" style="max-height: 100%; max-width: 100%;" alt="No Cover"/>
+                    }
+                </div>
+
+                <div class="card-body d-flex flex-column justify-content-between" style="min-height: 130px;">
+                    <h5 class="card-title">@book.Title</h5>
+                    <p class="card-text">@book.Authors</p>
+                    @if (book.Rating.HasValue)
+                    {
+                        <div class="text-warning" style="font-size: 1.2rem;" title="@book.Rating.Value/5">
+                            @{
+                                for (int i = 1; i <= 5; i++)
+                                {
+                                    <text>@(i <= book.Rating ? "★" : "☆")</text>
+                                }
                             }
-                        }
-                    </div>
-                }
+                        </div>
+                    }
 
 
+                </div>
             </div>
-        </div>
 
-        <div class="card-footer bg-white border-0 mt-auto">
+            <div class="card-footer bg-white border-0 mt-auto">
             <button type="button"
                     class="btn btn-sm w-100 btn-danger"
                     onclick='event.stopPropagation(); toggleLibrary(this, {
@@ -147,8 +149,8 @@
                         coverId: @(book.CoverId ?? 0),
                         key: "@book.WorkKey"
                     })'>
-                Remove
-            </button>
+            @Localizer["Remove"]
+        </button>
 
             <select class="form-select mt-2" onchange="updateStatus(this.value, '@book.WorkKey')">
                 @foreach (Readit.Models.ReadingStatus status in Enum.GetValues(typeof(Readit.Models.ReadingStatus)))

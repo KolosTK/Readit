@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1TG8kOSaHxM=",
+  "dgSpecHash": "+OlaGH+TetM=",
   "success": true,
   "projectFilePath": "D:\\Projects\\Readit\\Readit\\Readit.csproj",
   "expectedPackageFiles": [
@@ -102,6 +102,8 @@
     "C:\\Users\\Tetiana Kolosenko\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\8.0.0\\microsoft.extensions.filesystemglobbing.8.0.0.nupkg.sha512",
     "C:\\Users\\Tetiana Kolosenko\\.nuget\\packages\\microsoft.extensions.identity.core\\8.0.10\\microsoft.extensions.identity.core.8.0.10.nupkg.sha512",
     "C:\\Users\\Tetiana Kolosenko\\.nuget\\packages\\microsoft.extensions.identity.stores\\8.0.10\\microsoft.extensions.identity.stores.8.0.10.nupkg.sha512",
+    "C:\\Users\\Tetiana Kolosenko\\.nuget\\packages\\microsoft.extensions.localization\\8.0.10\\microsoft.extensions.localization.8.0.10.nupkg.sha512",
+    "C:\\Users\\Tetiana Kolosenko\\.nuget\\packages\\microsoft.extensions.localization.abstractions\\8.0.10\\microsoft.extensions.localization.abstractions.8.0.10.nupkg.sha512",
     "C:\\Users\\Tetiana Kolosenko\\.nuget\\packages\\microsoft.extensions.logging\\8.0.1\\microsoft.extensions.logging.8.0.1.nupkg.sha512",
     "C:\\Users\\Tetiana Kolosenko\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.2\\microsoft.extensions.logging.abstractions.8.0.2.nupkg.sha512",
     "C:\\Users\\Tetiana Kolosenko\\.nuget\\packages\\microsoft.extensions.options\\8.0.2\\microsoft.extensions.options.8.0.2.nupkg.sha512",

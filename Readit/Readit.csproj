@@ -15,12 +15,157 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.10" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Readit.DataAccess\Readit.DataAccess.csproj" />
       <ProjectReference Include="..\Readit.Models\Readit.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\Pages\Shared\LayoutLocalizer.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Layout_en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\Shared\LayoutLocalizer.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>LayoutLocalizer.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\UserPageLocalizer.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>UserPageLocalizer.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\UserPageLocalizer.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>UserPageLocalizer.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\UserPageLocalizer.uk.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>UserPageLocalizer.uk.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\BookDetailsLocalizer.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>BookDetails.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\BookDetailsLocalizer.uk.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>BookDetails.uk.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\BookDetailsLocalizer.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>BookDetails.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\Admin\ManageUsersLocalizer.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ManageUsersLocalizer.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\Admin\ManageUsersLocalizer.uk.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ManageUsersLocalizer.uk.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\Admin\ManageUsersLocalizer.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ManageUsersLocalizer.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\FollowersListLocalizer.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>FollowersListLocalizer.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\FollowersListLocalizer.uk.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>FollowersListLocalizer.uk.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\FollowersListLocalizer.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>FollowersListLocalizer.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\SearchLocalizer.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>SearchLocalizer.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\SearchLocalizer.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>SearchLocalizer.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Pages\SearchLocalizer.uk.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>SearchLocalizer.uk.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\Pages\Shared\LayoutLocalizer.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>LayoutLocalizer.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\Shared\LayoutLocalizer.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>LayoutLocalizer.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\UserPageLocalizer.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>UserPageLocalizer.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\UserPageLocalizer.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>UserPageLocalizer.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\UserPageLocalizer.uk.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>UserPageLocalizer.uk.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\BookDetailsLocalizer.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>BookDetailsLocalizer.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\BookDetailsLocalizer.uk.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>BookDetailsLocalizer.uk.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\BookDetailsLocalizer.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>BookDetailsLocalizer.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\FollowersListLocalizer.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>FollowersListLocalizer.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\FollowersListLocalizer.uk.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>FollowersListLocalizer.uk.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\FollowersListLocalizer.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>FollowersListLocalizer.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\SearchLocalizer.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SearchLocalizer.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\SearchLocalizer.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SearchLocalizer.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Pages\SearchLocalizer.uk.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SearchLocalizer.uk.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

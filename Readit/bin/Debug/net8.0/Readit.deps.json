@@ -13,12 +13,21 @@
           "Microsoft.EntityFrameworkCore": "8.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "8.0.10",
           "Microsoft.EntityFrameworkCore.Tools": "8.0.10",
+          "Microsoft.Extensions.Localization": "8.0.10",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.7",
           "Readit.DataAccess": "1.0.0",
           "Readit.Models": "1.0.0"
         },
         "runtime": {
           "Readit.dll": {}
+        },
+        "resources": {
+          "en/Readit.resources.dll": {
+            "locale": "en"
+          },
+          "uk/Readit.resources.dll": {
+            "locale": "uk"
+          }
         }
       },
       "Azure.Core/1.35.0": {
@@ -1391,6 +1400,28 @@
           }
         }
       },
+      "Microsoft.Extensions.Localization/8.0.10": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Localization.Abstractions": "8.0.10",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Options": "8.0.2"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Localization.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46804"
+          }
+        }
+      },
+      "Microsoft.Extensions.Localization.Abstractions/8.0.10": {
+        "runtime": {
+          "lib/net8.0/Microsoft.Extensions.Localization.Abstractions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46804"
+          }
+        }
+      },
       "Microsoft.Extensions.Logging/8.0.1": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "8.0.1",
@@ -2752,6 +2783,20 @@
       "sha512": "sha512-Mwxhj2pLwFcT8BOJ4g7y/WQyQSmZNOalIHmyISFlWykPEKgaQXOlddOCOftSIUqh4IZEYDsVXjeecjl9RLC8Lw==",
       "path": "microsoft.extensions.identity.stores/8.0.10",
       "hashPath": "microsoft.extensions.identity.stores.8.0.10.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Localization/8.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0QCDimg4cR7EJRMaP4YBWodmIvuEA91icrjTAqYYhoNrlswk/39EqdC240xDTmsqr8i1h1ulQXzHv5WNBodX2Q==",
+      "path": "microsoft.extensions.localization/8.0.10",
+      "hashPath": "microsoft.extensions.localization.8.0.10.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Localization.Abstractions/8.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OuuTRyukXTPjTgx1iYJzyaPa+hFrkj1djlWV/kqsWs2arSXczh/JpCgak617mo3M+5FMpEJ3af5nrgehC7q1YQ==",
+      "path": "microsoft.extensions.localization.abstractions/8.0.10",
+      "hashPath": "microsoft.extensions.localization.abstractions.8.0.10.nupkg.sha512"
     },
     "Microsoft.Extensions.Logging/8.0.1": {
       "type": "package",

@@ -1,10 +1,11 @@
 @page "{id?}"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Readit.Pages.FollowersListLocalizer> Localizer
 @model Readit.Pages.FollowersListModel
 @{
     ViewData["Title"] = "Followers & Following";
 }
 
-<h2>@Model.UserName’s Network</h2>
+<h2>@Localizer["UserNetworkHeading", Model.UserName]</h2>
 
 <div class="list-group">
     @foreach (var user in Model.SortedUsers)
@@ -27,17 +28,17 @@
                     {
                         <form method="post" asp-page-handler="RemoveFriend">
                             <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-danger btn-sm">Remove Friend</button>
+                            <button type="submit" class="btn btn-danger btn-sm">@Localizer["Remove Friend"]</button>
                         </form>
                     }
                     else
                     {
                         <form method="post" asp-page-handler="AddFriend">
                             <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-primary btn-sm">Add Friend</button>
+                            <button type="submit" class="btn btn-primary btn-sm">@Localizer["Add Friend"]</button>
                         </form>
                     }
-                    <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary">View Profile</a>
+                    <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary">@Localizer["View Profile"]</a>
                 }
             </div>
         </div>

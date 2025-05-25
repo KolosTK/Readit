@@ -1,20 +1,21 @@
 @page
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Readit.Pages.SearchLocalizer> Localizer
 @model Readit.Pages.Search
 <div class="btn-group w-100 mb-3" role="group">
     <button type="button"
             class="btn @(Model.Mode == "books" ? "btn-primary" : "btn-outline-primary") flex-fill"
             onclick="switchMode('books')">
-        Books
+        @Localizer["Books"]
     </button>
     <button type="button"
             class="btn @(Model.Mode == "friends" ? "btn-primary" : "btn-outline-primary") flex-fill"
             onclick="switchMode('friends')">
-        Users
+        @Localizer["Users"]
     </button>
     <button type="button"
             class="btn @(Model.Mode == "recommendations" ? "btn-primary" : "btn-outline-primary") flex-fill"
             onclick="switchMode('recommendations')">
-        Recommendations
+        @Localizer["Recommendations"]
     </button>
 </div>
 
@@ -28,7 +29,7 @@
                name="Query"
                value="@Model.Query"
                class="form-control me-2"
-               placeholder="Search for a book or user..." />
+               placeholder="@Localizer["Search for a book or user..."]" />
         <button type="submit" class="btn btn-primary">
             <i class="bi bi-search"></i>
         </button>
@@ -43,7 +44,11 @@
 @if (Model.Mode == "books")
 {
     <div id="bookGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @{
+            ViewData["Localizer"] = Localizer;
+        }
         @await Html.PartialAsync("_BookCardsPartial", Model.Books)
+
     </div>
 }
 else if (Model.Mode == "friends")
@@ -61,11 +66,11 @@ else if (Model.Mode == "friends")
                 </div>
                 <form method="post" asp-page-handler="@(Model.FriendIds.Contains(user.Id) ? "RemoveFriend" : "AddFriend")" asp-route-id="@user.Id" class="d-inline">
                     <button class="btn btn-sm @(Model.FriendIds.Contains(user.Id) ? "btn-danger" : "btn-success")" type="submit">
-                        @(Model.FriendIds.Contains(user.Id) ? "Remove Friend" : "Add Friend")
+                        @(Model.FriendIds.Contains(user.Id) ? Localizer["RemoveFriend"] : Localizer["AddFriend"])
                     </button>
                 </form>
 
-                <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary">View Profile</a>
+                <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary"> @Localizer["View Profile"]</a>
                 
             </div>
         }
@@ -125,7 +130,11 @@ else if (Model.Mode == "recommendations")
     <script>
         let offset = 12;
         let loading = false;
-
+        const localizedText = {
+            addToLibrary: @Html.Raw(Json.Serialize(Localizer["AddToLibraryText"])),
+            removeFromLibrary: @Html.Raw(Json.Serialize(Localizer["RemoveFromLibraryText"]))
+        };
+        
         window.addEventListener('scroll', async () => {
             if (loading) return;
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
@@ -159,11 +168,11 @@ else if (Model.Mode == "recommendations")
             const result = await response.json();
 
             if (result.added) {
-                button.innerText = "Remove";
+                button.innerText = localizedText.removeFromLibrary;
                 button.classList.remove("btn-outline-primary");
                 button.classList.add("btn-danger");
             } else {
-                button.innerText = "Add to Library";
+                button.innerText = localizedText.addToLibrary;
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-outline-primary");
             }

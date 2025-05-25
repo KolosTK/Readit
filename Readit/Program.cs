@@ -4,6 +4,10 @@ using Readit.DataAccess;
 using Readit.Library;
 using Readit.Models;
 using Readit.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.Extensions.Options;
+
 
 public class Program
 {
@@ -26,8 +30,20 @@ public class Program
 
         builder.Services.AddHttpClient<BookApiService>();
         
-        builder.Services.AddRazorPages();
+        builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+        builder.Services.Configure<RequestLocalizationOptions>(options =>
+        {
+            var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("uk") };
+
+            options.DefaultRequestCulture = new RequestCulture("en");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+
+            options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
+        });
+        builder.Services.AddRazorPages()
+            .AddViewLocalization();
         var app = builder.Build();
 
         // ✅ Seed roles and assign them to users before app runs
@@ -45,6 +61,8 @@ public class Program
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
+        var localizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>().Value;
+        app.UseRequestLocalization(localizationOptions);
 
         app.UseRouting();
         app.UseAuthentication(); 
