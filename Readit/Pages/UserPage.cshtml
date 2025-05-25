@@ -122,6 +122,19 @@
             <div class="card-body d-flex flex-column justify-content-between" style="min-height: 130px;">
                 <h5 class="card-title">@book.Title</h5>
                 <p class="card-text">@book.Authors</p>
+                @if (book.Rating.HasValue)
+                {
+                    <div class="text-warning" style="font-size: 1.2rem;" title="@book.Rating.Value/5">
+                        @{
+                            for (int i = 1; i <= 5; i++)
+                            {
+                                <text>@(i <= book.Rating ? "★" : "☆")</text>
+                            }
+                        }
+                    </div>
+                }
+
+
             </div>
         </div>
 
