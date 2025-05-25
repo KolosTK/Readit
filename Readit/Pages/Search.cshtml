@@ -1,23 +1,140 @@
 @page
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Readit.Pages.SearchLocalizer> Localizer
 @model Readit.Pages.Search
+<div class="btn-group w-100 mb-3" role="group">
+    <button type="button"
+            class="btn @(Model.Mode == "books" ? "btn-primary" : "btn-outline-primary") flex-fill"
+            onclick="switchMode('books')">
+        @Localizer["Books"]
+    </button>
+    <button type="button"
+            class="btn @(Model.Mode == "friends" ? "btn-primary" : "btn-outline-primary") flex-fill"
+            onclick="switchMode('friends')">
+        @Localizer["Users"]
+    </button>
+    <button type="button"
+            class="btn @(Model.Mode == "recommendations" ? "btn-primary" : "btn-outline-primary") flex-fill"
+            onclick="switchMode('recommendations')">
+        @Localizer["Recommendations"]
+    </button>
+</div>
 
-<form method="post">
-    <input asp-for="Query" placeholder="Search for a book..." />
-    <button type="submit">Search</button>
-</form>
 
-@if (Model.Books != null && Model.Books.Any())
+
+@if (Model.Mode == "books" || Model.Mode == "friends")
+{
+    <form method="get" class="d-flex mb-3">
+        <input type="hidden" name="Mode" value="@Model.Mode" />
+        <input type="text"
+               name="Query"
+               value="@Model.Query"
+               class="form-control me-2"
+               placeholder="@Localizer["Search for a book or user..."]" />
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+
+}
+
+
+
+
+
+@if (Model.Mode == "books")
 {
     <div id="bookGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        @{
+            ViewData["Localizer"] = Localizer;
+        }
         @await Html.PartialAsync("_BookCardsPartial", Model.Books)
+
     </div>
 }
+else if (Model.Mode == "friends")
+{
+    <div class="list-group">
+        @foreach (var user in Model.Users)
+        {
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-3">
+                    <img src="/avatars/@(user.AvatarFileName ?? "default-avatar.png")"
+                         class="rounded-circle border"
+                         style="width: 50px; height: 50px; object-fit: cover;" />
+
+                    <strong>@user.FirstName @user.LastName</strong>
+                </div>
+                <form method="post" asp-page-handler="@(Model.FriendIds.Contains(user.Id) ? "RemoveFriend" : "AddFriend")" asp-route-id="@user.Id" class="d-inline">
+                    <button class="btn btn-sm @(Model.FriendIds.Contains(user.Id) ? "btn-danger" : "btn-success")" type="submit">
+                        @(Model.FriendIds.Contains(user.Id) ? Localizer["RemoveFriend"] : Localizer["AddFriend"])
+                    </button>
+                </form>
+
+                <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary"> @Localizer["View Profile"]</a>
+                
+            </div>
+        }
+    </div>
+}
+else if (Model.Mode == "recommendations")
+{
+    <div id="bookGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+@foreach (var book in Model.Books)
+{
+    <div class="col">
+        <div class="card h-100 d-flex flex-column">
+            <div onclick="location.href='@Url.Page("/BookDetails", new { workKey = book.Key.Split('/').Last() })'" style="cursor:pointer;">
+                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 300px;">
+                    @if (book.CoverId.HasValue && book.CoverId > 0)
+                    {
+                        <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-L.jpg"
+                             class="img-fluid" style="max-height: 100%; max-width: 100%;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/NoCover.png" class="img-fluid" style="max-height: 100%;" />
+                    }
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h5>@book.Title</h5>
+                <p>@string.Join(", ", book.AuthorName ?? new List<string>())</p>
+            </div>
+
+            @* Avatar list with hover dropdown *@
+            <div class="card-footer bg-white border-0">
+                <div class="d-flex align-items-center gap-1 position-relative">
+                    @foreach (var user in book.AddedByUsers.DistinctBy(u => u.Id).Take(5))
+                    {
+                        <div class="position-relative group">
+                            <img src="/avatars/@(user.AvatarFileName ?? "default-avatar.png")"
+                                 class="rounded-circle border"
+                                 style="width: 32px; height: 32px; object-fit: cover; cursor: pointer;" />
+                            <div class="dropdown-menu shadow-sm p-2" style="display: none; position: absolute; top: 35px; left: 0; z-index: 10;">
+                                <a asp-page="/UserPage" asp-route-id="@user.Id">@user.FirstName @user.LastName</a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+</div>
+
+}
+
 
 @section Scripts {
     <script>
         let offset = 12;
         let loading = false;
-
+        const localizedText = {
+            addToLibrary: @Html.Raw(Json.Serialize(Localizer["AddToLibraryText"])),
+            removeFromLibrary: @Html.Raw(Json.Serialize(Localizer["RemoveFromLibraryText"]))
+        };
+        
         window.addEventListener('scroll', async () => {
             if (loading) return;
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
@@ -28,6 +145,15 @@
                 offset += 12;
                 loading = false;
             }
+        });
+        document.querySelectorAll('.group').forEach(container => {
+            const menu = container.querySelector('.dropdown-menu');
+            container.addEventListener('mouseenter', () => {
+                menu.style.display = 'block';
+            });
+            container.addEventListener('mouseleave', () => {
+                menu.style.display = 'none';
+            });
         });
 
         async function toggleLibrary(button, book) {
@@ -42,14 +168,26 @@
             const result = await response.json();
 
             if (result.added) {
-                button.innerText = "Remove";
+                button.innerText = localizedText.removeFromLibrary;
                 button.classList.remove("btn-outline-primary");
                 button.classList.add("btn-danger");
             } else {
-                button.innerText = "Add to Library";
+                button.innerText = localizedText.addToLibrary;
                 button.classList.remove("btn-danger");
                 button.classList.add("btn-outline-primary");
             }
+        }
+        function switchMode(mode) {
+            const queryInput = document.querySelector('[name="Query"]');
+            const query = queryInput ? queryInput.value : "";
+            const url = new URL(window.location.href);
+            url.searchParams.set("Mode", mode);
+            if (query) {
+                url.searchParams.set("Query", query);
+            } else {
+                url.searchParams.delete("Query"); // optional: clean URL if no query
+            }
+            window.location.href = url.toString();
         }
     </script>
 }

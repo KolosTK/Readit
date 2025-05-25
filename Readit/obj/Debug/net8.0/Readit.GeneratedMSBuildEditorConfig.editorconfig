@@ -54,10 +54,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Projects/Readit/Readit/Pages/AdminPage.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5QYWdlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [D:/Projects/Readit/Readit/Pages/Admin/ManageUsers.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -70,12 +66,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Projects/Readit/Readit/Pages/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
+[D:/Projects/Readit/Readit/Pages/FollowersList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9sbG93ZXJzTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Projects/Readit/Readit/Pages/Library.cshtml]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTGlicmFyeS5jc2h0bWw=
+[D:/Projects/Readit/Readit/Pages/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/Readit/Readit/Pages/Privacy.cshtml]
@@ -84,6 +80,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/Projects/Readit/Readit/Pages/Search.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VhcmNoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Projects/Readit/Readit/Pages/SetLanguage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2V0TGFuZ3VhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Projects/Readit/Readit/Pages/Shared/_BookCardsPartial.cshtml]

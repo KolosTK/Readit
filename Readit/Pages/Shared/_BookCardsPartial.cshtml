@@ -1,36 +1,56 @@
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Readit.Pages.SearchLocalizer> Localizer
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+
+@functions {
+    string GetDisplayName(Enum value)
+    {
+        return value.GetType()
+            .GetMember(value.ToString())
+            .First()
+            .GetCustomAttribute<DisplayAttribute>()?.GetName() ?? value.ToString();
+    }
+}
+
+
 @model List<Readit.Api.Models.OpenLibraryBook>
 
 @foreach (var book in Model)
-{
-    <div class="col">
-        <div class="card h-100">
-            <div style="cursor:pointer;" onclick="location.href='@Url.Page("/BookDetails", new { coverId = book.CoverId ?? 0 })'">
-                @if (book.CoverId.HasValue)
-                {
-                    <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-M.jpg" class="card-img-top" alt="@book.Title" />
-                }
-                else
-                {
-                    <img src="https://via.placeholder.com/150x220?text=No+Cover" class="card-img-top" alt="No cover" />
-                }
+{<div class="col">
+        <div class="card h-100 d-flex flex-column" style="height: 100%;">
+            <a href="@Url.Page("/BookDetails", new { workKey = book.Key.Split('/').Last() })" style="text-decoration: none; color: inherit;">
+                <div class="d-flex align-items-center justify-content-center bg-light"
+                     style="height: 300px; overflow: hidden;">
+                    @if (book.CoverId.HasValue)
+                    {
+                        <img src="https://covers.openlibrary.org/b/id/@(book.CoverId)-L.jpg"
+                             class="img-fluid" style="max-height: 100%; max-width: 100%;" />
+                    }
+                    else
+                    {
+                        <img src="~/images/NoCover.png"
+                             class="img-fluid" style="max-height: 100%; max-width: 100%;" alt="No Cover" />
+                    }
+                </div>
 
-                <div class="card-body">
+                <div class="card-body d-flex flex-column justify-content-between" style="min-height: 130px;">
                     <h5 class="card-title">@book.Title</h5>
                     <p class="card-text">@string.Join(", ", book.AuthorName ?? new List<string> { "Unknown" })</p>
                 </div>
-            </div>
-            <button type="button"
-                    class="btn @(book.IsInLibrary ? "btn-danger" : "btn-outline-primary")"
-                    onclick='event.stopPropagation(); toggleLibrary(this, {
+            </a>
+
+            <div class="card-footer bg-white border-0 mt-auto">
+                <button type="button"
+                        class="btn btn-sm w-100 @(book.IsInLibrary ? "btn-danger" : "btn-outline-primary")"
+                        onclick='event.stopPropagation(); toggleLibrary(this, {
                         title: @Json.Serialize(book.Title),
-                    author_name: @Html.Raw(Json.Serialize(book.AuthorName ?? new List<string>())),
-                    cover_i: @(book.CoverId ?? 0),
-                    key: @Json.Serialize(book.Key)
+                        author_name: @Html.Raw(Json.Serialize(book.AuthorName ?? new List<string>())),
+                        cover_i: @(book.CoverId ?? 0),
+                        key: @Json.Serialize(book.Key)
                     })'>
-                @(book.IsInLibrary ? "Remove" : "Add to Library")
-            </button>
-
-
+                    @(book.IsInLibrary ? Localizer["RemoveFromLibraryText"] : Localizer["AddToLibraryText"])
+                </button>
+            </div>
         </div>
     </div>
 }

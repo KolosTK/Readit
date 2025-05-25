@@ -1,5 +1,19 @@
-@page "{coverId:int}"
+@page "{workKey?}"
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Readit.Pages.BookDetailsLocalizer> Localizer
 @model Readit.Pages.BookDetails
+@using System.ComponentModel.DataAnnotations
+@using System.Reflection
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@functions {
+    string GetDisplayName(Enum value)
+    {
+        return value.GetType()
+            .GetMember(value.ToString())
+            .First()
+            .GetCustomAttribute<DisplayAttribute>()?.GetName() ?? value.ToString();
+    }
+}
 @{
     ViewData["Title"] = "Book Details";
 }
@@ -14,32 +28,125 @@
             }
             else
             {
-                <div class="border bg-light text-muted p-5">No Cover</div>
+                <img src="~/images/NoCover.png"
+                     class="img-fluid" style="max-height: 100%; max-width: 100%;" alt="No Cover" />
             }
+            <form method="post" asp-page-handler="Rate" class="d-inline">
+                <input type="hidden" name="WorkKey" value="@Model.WorkKey" />
+                <div id="rating-stars" class="mb-3">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <button type="submit" name="SelectedRating" value="@i"
+                                class="btn btn-link p-0"
+                                style="font-size: 2rem; text-decoration: none;">
+                            @(Model.UserRating.HasValue && Model.UserRating >= i ? "★" : "☆")
+                        </button>
+                    }
+                </div>
+            </form>
 
-            <!-- Mock Stars -->
-            <div style="font-size: 1.5rem;">
-                ★★★★★
-            </div>
         </div>
 
         <div class="col-md-8">
             <h2>@Model.Book.Title</h2>
-            <p><strong>Author:</strong> @string.Join(", ", Model.Book.AuthorName ?? new List<string> { "Unknown" })</p>
-            <p><strong>Year:</strong> @Model.Book.FirstPublishYear</p>
+            <p><strong>@Localizer["Author"]:</strong> @string.Join(", ", Model.Book.AuthorName ?? new List<string> { "Unknown" })</p>
+            <p><strong>@Localizer["Year"]:</strong> @Model.Book.FirstPublishYear</p>
 
             <div class="d-flex gap-2 mb-3">
-                <button class="btn btn-outline-primary">Status</button>
-                <button class="btn btn-outline-secondary">Rate</button>
+                @if (Model.UserBookStatus != null)
+                {
+                    <p><strong>@Localizer["Status"]:</strong> @GetDisplayName(Model.UserBookStatus.Value)</p>
+                }
             </div>
-            
-            <h4>Comments</h4>
-            <div class="border p-2 rounded bg-white">
-                <div class="mb-2 border-bottom pb-2">
-                    <strong>username</strong><br />
-                    <span>Some comment</span>
+
+            <form method="post" asp-page-handler="AddComment">
+                <input type="hidden" asp-for="WorkKey" />
+                <textarea class="form-control" asp-for="NewCommentText" placeholder="@Localizer["Add a comment..."]"></textarea>
+                <button type="submit" class="btn btn-primary mt-2">@Localizer["Post Comment"]</button>
+            </form>
+
+
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="border p-3 mb-3 rounded shadow-sm bg-light">
+                    <div class="d-flex align-items-center mb-2">
+                        <a asp-page="/UserPage" asp-route-id="@comment.User.Id">
+                            <img src="@(comment.User.AvatarFileName != null
+                                          ? $"/avatars/{comment.User.AvatarFileName}"
+                                          : "https://via.placeholder.com/40")"
+                                 class="rounded-circle me-2"
+                                 style="width: 40px; height: 40px; object-fit: cover;" />
+                        </a>
+
+                        <div>
+                            <a asp-page="/UserPage" asp-route-id="@comment.User.Id" class="text-decoration-none text-dark fw-bold">
+                                @comment.User.LastName @comment.User.FirstName
+                            </a><br />
+                            @if (Model.CommenterRatings.TryGetValue(comment.UserId, out var rating) && rating.HasValue)
+                            {
+                                <span class="text-warning ms-2" title="Rated @rating.Value/5">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <text>@(i <= rating ? "★" : "☆")</text>
+                                    }
+                                 </span>
+                            }
+
+                            <small class="text-muted">@comment.CreatedAt.ToString("yyyy-MM-dd")</small>
+                        </div>
+                    </div>
+
+
+
+                    @if (Model.EditCommentId == comment.Id)
+                    {
+                        <form method="post" asp-page-handler="EditComment">
+                            <input type="hidden" asp-for="WorkKey" />
+                            <input type="hidden" asp-for="EditCommentId" />
+                            <textarea class="form-control" asp-for="EditedCommentText">@comment.Text</textarea>
+                            <button type="submit" class="btn btn-primary mt-2">@Localizer["Save"]</button>
+                            <a href="@Url.Page("BookDetails", new { workKey = Model.WorkKey })" class="btn btn-secondary mt-2 ms-2">@Localizer["Cancel"]</a>
+                        </form>
+                    }
+                    else
+                    {
+                        <p>@comment.Text</p>
+                    }
+
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                        var isAuthor = comment.UserId == currentUserId;
+                        var isAdmin = User.IsInRole("admin");
+
+                        @if (isAuthor || isAdmin)
+                        {
+                            // Hide Edit/Delete buttons when this comment is in edit mode
+                            if (Model.EditCommentId != comment.Id)
+                            {
+                                <div class="mt-2">
+                                    @if (isAuthor)
+                                    {
+                                        <form method="post" asp-page-handler="EditCommentForm" asp-route-id="@comment.Id" class="d-inline">
+                                            <button type="submit" class="btn btn-sm btn-outline-secondary me-2">@Localizer["Edit"]</button>
+                                        </form>
+                                    }
+                                    <form method="post"
+                                          asp-page-handler="DeleteComment"
+                                          asp-route-id="@comment.Id"
+                                          class="d-inline"
+                                          onsubmit="return confirm('Are you sure you want to delete this comment?');">
+                                        <button class="btn btn-sm btn-danger" type="submit">@Localizer["Delete"]</button>
+                                    </form>
+
+                                </div>
+                            }
+                        }
+
+                    }
                 </div>
-            </div>
+            }
         </div>
     </div>
 </div>  

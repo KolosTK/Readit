@@ -14,33 +14,36 @@ public class ApplicationDbContext : IdentityDbContext<User>
     public DbSet<Book> Books { get; set; }
     public DbSet<UserBook> UserBooks { get; set; }
     public DbSet<Comment> Comments { get; set; }
-
+    
+    public DbSet<Friendship> Friendships { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        var admin = new IdentityRole
-        {
-            Id = "1",
-            Name = "admin",
-            NormalizedName = "ADMIN"
-        };
 
-        var user = new IdentityRole
-        {
-            Id = "2",
-            Name = "user",
-            NormalizedName = "USER"
-        };
+        modelBuilder.Entity<Friendship>()
+            .HasOne(f => f.Follower)
+            .WithMany()
+            .HasForeignKey(f => f.FollowerId)
+            .OnDelete(DeleteBehavior.Restrict); // or .NoAction()
 
-        
-        modelBuilder.Entity<IdentityRole>().HasData(admin, user);
-        
+        modelBuilder.Entity<Friendship>()
+            .HasOne(f => f.Followee)
+            .WithMany()
+            .HasForeignKey(f => f.FolloweeId)
+            .OnDelete(DeleteBehavior.Restrict); // or .NoAction()
+
+        // Your existing role seeding:
+        modelBuilder.Entity<IdentityRole>().HasData(
+            new IdentityRole { Id = "1", Name = "admin", NormalizedName = "ADMIN" },
+            new IdentityRole { Id = "2", Name = "user", NormalizedName = "USER" }
+        );
+
         modelBuilder.Entity<Book>().HasData(new Book
         {
             Id = 1,
             Title = "Test Book"
         });
     }
+
 }

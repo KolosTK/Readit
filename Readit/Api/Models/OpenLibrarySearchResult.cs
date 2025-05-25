@@ -4,6 +4,5 @@ namespace Readit.Api.Models;
 
 public class OpenLibrarySearchResult
 {
-    [JsonPropertyName("docs")]
-    public List<OpenLibraryBook> Docs { get; set; }
+    [JsonPropertyName("docs")] public List<OpenLibraryBook> Docs { get; set; } = new();
 }

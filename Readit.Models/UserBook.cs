@@ -10,4 +10,7 @@ public class UserBook
     public string WorkKey { get; set; } = null!;
 
     public User User { get; set; } = null!;
+    
+    public ReadingStatus Status { get; set; } = ReadingStatus.Planned;
+    public int? Rating { get; set; }
 }
