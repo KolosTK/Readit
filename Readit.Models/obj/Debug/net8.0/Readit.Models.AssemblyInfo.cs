@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Readit.Models")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+22e48191649c4057f18485dbc6bfd27dcf217cf7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ee2b6f1a7e0173c20ca4f840cdf044ff06870b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Readit.Models")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Readit.Models")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
