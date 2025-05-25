@@ -22,12 +22,12 @@
 }
 
 <div class="container my-4">
-    <div class="row mb-4">
-        <div class="col-auto">
+    <div class="row mb-4 d-flex align-items-start" style="min-height: 140px;">
+    <div class="col-auto">
             <div class="text-center">
                 <img src="/avatars/@Model.CurrentUser.AvatarFileName?ts=@DateTime.Now.Ticks"
                      class="rounded-circle border"
-                     style="width: 120px; height: 120px; object-fit: cover;"
+                     style="width: 140px; height: 140px; object-fit: cover;"
                      alt="Avatar" />
                 @if (Model.IsSelf)
                 {
@@ -56,9 +56,10 @@
            
 
         </div>
-        <div class="col">
-            <h2>@Model.Username</h2>
-            <p>
+        <div class="col d-flex flex-column justify-content-center h-100">
+            <h2>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</h2>
+
+            <p class="profile-stats">
                 <a asp-page="/FollowersList" asp-route-id="@Model.CurrentUser.Id" class="me-3">
                     <strong>@Model.FollowingCount</strong> @Localizer["following"]
                 </a>
@@ -201,3 +202,19 @@
         }
     </script>
 }
+
+@section Styles {
+<style>
+    .profile-stats a {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+
+    .profile-stats a:hover {
+        color: #007bff !important;
+    }
+</style>
+}
+
+}
+
