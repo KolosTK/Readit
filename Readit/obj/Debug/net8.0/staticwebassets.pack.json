@@ -5,12 +5,44 @@
       "PackagePath": "staticwebassets\\Readit.bundle.scp.css"
     },
     {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\21e57f77-7a2f-498e-9cff-48941ce75649.png",
+      "PackagePath": "staticwebassets\\avatars\\21e57f77-7a2f-498e-9cff-48941ce75649.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\516ce090-5ba4-4d28-9704-4b280a53a423.jpg",
+      "PackagePath": "staticwebassets\\avatars\\516ce090-5ba4-4d28-9704-4b280a53a423.jpg"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\516ce090-5ba4-4d28-9704-4b280a53a423.png",
+      "PackagePath": "staticwebassets\\avatars\\516ce090-5ba4-4d28-9704-4b280a53a423.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\6cc2ae9d-d120-411a-b3ab-5e8e5a97020d.png",
+      "PackagePath": "staticwebassets\\avatars\\6cc2ae9d-d120-411a-b3ab-5e8e5a97020d.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\daa46e44-6f65-41c3-a07a-605e9eeccfea.png",
+      "PackagePath": "staticwebassets\\avatars\\daa46e44-6f65-41c3-a07a-605e9eeccfea.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\dc03fc3e-ac61-4ee0-8119-c11bc4250286.png",
+      "PackagePath": "staticwebassets\\avatars\\dc03fc3e-ac61-4ee0-8119-c11bc4250286.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\default-avatar.png",
+      "PackagePath": "staticwebassets\\avatars\\default-avatar.png"
+    },
+    {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\NoCover.png",
+      "PackagePath": "staticwebassets\\images\\NoCover.png"
     },
     {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\js\\site.js",

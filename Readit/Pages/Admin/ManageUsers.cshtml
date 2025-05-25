@@ -1,0 +1,48 @@
+@page
+@inject Microsoft.Extensions.Localization.IStringLocalizer<Readit.Pages.Admin.ManageUsersLocalizer> Localizer
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject UserManager<User> UserManager
+@inject RoleManager<IdentityRole> RoleManager
+@model Readit.Pages.Admin.ManageUsersModel
+
+@attribute [Authorize(Roles = "admin")]
+
+<h1>@Localizer["Manage Users"]</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>@Localizer["Email"]</th>
+        <th>@Localizer["First Name"]</th>
+        <th>@Localizer["Last Name"]</th>
+        <th>@Localizer["Roles"]</th>
+        <th>@Localizer["Actions"]</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model.Users)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>@user.FirstName</td>
+            <td>@user.LastName</td>
+            <td>@string.Join(", ", await UserManager.GetRolesAsync(user))</td>
+            <td>
+                @if (!await UserManager.IsInRoleAsync(user, "admin"))
+                {
+                    <form method="post" asp-page-handler="Promote" asp-route-id="@user.Id">
+                        <button class="btn btn-success" type="submit">@Localizer["Promote to Admin"]</button>
+                    </form>
+                }
+                else
+                {
+                    <form method="post" asp-page-handler="Demote" asp-route-id="@user.Id">
+                        <button class="btn btn-danger" type="submit">@Localizer["Demote to User"]</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
