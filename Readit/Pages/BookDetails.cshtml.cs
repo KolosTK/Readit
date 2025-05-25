@@ -31,6 +31,8 @@ public class BookDetails : PageModel
     public OpenLibraryBook Book { get; set; } = null!;
     public List<Comment> Comments { get; set; } = new();
     public int? UserRating { get; set; }
+    public Dictionary<string, int?> CommenterRatings { get; set; } = new();
+
 
     public BookDetails(BookApiService bookApiService, ApplicationDbContext context, UserManager<User> userManager)
     {
@@ -66,6 +68,17 @@ public class BookDetails : PageModel
             .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
 
+        var userIds = await _context.Comments
+            .Where(c => c.WorkKey == workKey)
+            .Select(c => c.UserId)
+            .Distinct()
+            .ToListAsync();
+
+        CommenterRatings = await _context.UserBooks
+            .Where(ub => userIds.Contains(ub.UserId) && ub.WorkKey.EndsWith(workKey))
+            .ToDictionaryAsync(ub => ub.UserId, ub => ub.Rating);
+
+        
         return Page();
     }
 

@@ -81,6 +81,16 @@
                             <a asp-page="/UserPage" asp-route-id="@comment.User.Id" class="text-decoration-none text-dark fw-bold">
                                 @comment.User.LastName @comment.User.FirstName
                             </a><br />
+                            @if (Model.CommenterRatings.TryGetValue(comment.UserId, out var rating) && rating.HasValue)
+                            {
+                                <span class="text-warning ms-2" title="Rated @rating.Value/5">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <text>@(i <= rating ? "★" : "☆")</text>
+                                    }
+                                 </span>
+                            }
+
                             <small class="text-muted">@comment.CreatedAt.ToString("yyyy-MM-dd")</small>
                         </div>
                     </div>
