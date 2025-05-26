@@ -11,12 +11,6 @@ public class OpenLibraryBook
     [JsonPropertyName("author_name")]
     public List<string>? AuthorName { get; set; }
     
-    /*[JsonPropertyName("cover_i")]
-    public int? Cover_i
-    {
-        get => CoverId;
-        set => CoverId = value;
-    }*/
     [JsonPropertyName("cover_i")]
     public int? CoverId { get; set; }
     public List<User>? AddedByUsers { get; set; } = new();

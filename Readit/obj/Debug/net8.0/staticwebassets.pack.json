@@ -41,8 +41,20 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\Background.png",
+      "PackagePath": "staticwebassets\\images\\Background.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\BackgroundLight.png",
+      "PackagePath": "staticwebassets\\images\\BackgroundLight.png"
+    },
+    {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\NoCover.png",
       "PackagePath": "staticwebassets\\images\\NoCover.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\YellowIcon.png",
+      "PackagePath": "staticwebassets\\images\\YellowIcon.png"
     },
     {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\js\\site.js",

@@ -65,6 +65,7 @@ public class Program
         app.UseRequestLocalization(localizationOptions);
 
         app.UseRouting();
+        app.UseStaticFiles();
         app.UseAuthentication(); 
         app.UseAuthorization();
 

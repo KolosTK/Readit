@@ -3,21 +3,22 @@
 @model Readit.Pages.Search
 <div class="btn-group w-100 mb-3" role="group">
     <button type="button"
-            class="btn @(Model.Mode == "books" ? "btn-primary" : "btn-outline-primary") flex-fill"
+            class="btn @(Model.Mode == "books" ? "btn-secondary" : "btn-outline-secondary") flex-fill"
             onclick="switchMode('books')">
         @Localizer["Books"]
     </button>
     <button type="button"
-            class="btn @(Model.Mode == "friends" ? "btn-primary" : "btn-outline-primary") flex-fill"
+            class="btn @(Model.Mode == "friends" ? "btn-secondary" : "btn-outline-secondary") flex-fill"
             onclick="switchMode('friends')">
         @Localizer["Users"]
     </button>
     <button type="button"
-            class="btn @(Model.Mode == "recommendations" ? "btn-primary" : "btn-outline-primary") flex-fill"
+            class="btn @(Model.Mode == "recommendations" ? "btn-secondary" : "btn-outline-secondary") flex-fill"
             onclick="switchMode('recommendations')">
         @Localizer["Recommendations"]
     </button>
 </div>
+
 
 
 
