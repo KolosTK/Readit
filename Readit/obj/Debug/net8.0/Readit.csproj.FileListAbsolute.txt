@@ -251,9 +251,7 @@ D:\Projects\Readit\Readit\bin\Debug\net8.0\Readit.DataAccess.pdb
 D:\Projects\Readit\Readit\bin\Debug\net8.0\Readit.Models.pdb
 D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.csproj.AssemblyReference.cache
 D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.Resources.Pages.Shared.LayoutLocalizer.resources
-D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.Resources.Pages.Shared.LayoutLocalizer.en.en.resources
 D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.Resources.Pages.Shared.LayoutLocalizer.en.resources
-D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.Resources.Pages.Shared.LayoutLocalizer.en.uk.resources
 D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.Resources.Pages.Shared.LayoutLocalizer.uk.resources
 D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.csproj.GenerateResource.cache
 D:\Projects\Readit\Readit\obj\Debug\net8.0\Readit.GeneratedMSBuildEditorConfig.editorconfig

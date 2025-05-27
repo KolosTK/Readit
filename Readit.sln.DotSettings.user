@@ -8,19 +8,20 @@
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002EShared_002E_005FLayout/@EntryIndexRemoved">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002EUserPage/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002EUserPage/@EntryIndexRemoved">True</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FAdmin_002FManageUsersLocalizer/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FAdmin_002FManageUsersLocalizer/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FBookDetails/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FBookDetails/@EntryIndexRemoved">True</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FBookDetailsLocalizer/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FFollowersListLocalizer/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FBookDetailsLocalizer/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FFollowersListLocalizer/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FSearchLocalizer/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002FLayoutLocalizer_002Een/@EntryIndexRemoved">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002F_005FLayoutLocalizer/@EntryIndexRemoved">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002F_005FLayout_005Fen/@EntryIndexRemoved">True</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002FLayoutLocalizer_002Een/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002FLayoutLocalizer/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002FLayoutLocalizer_002Een/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002FLayoutLocalizer/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002F_005FLayout_005Fuk/@EntryIndexRemoved">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FShared_002F_005FLayoutLocalizer/@EntryIndexedValue">False</s:Boolean>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FUserPageLocalizer/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_002FUserPageLocalizer/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_005FShared_005F_005FLayout_005Fen/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FPages_005FShared_005F_005FLayout_005Fuk/@EntryIndexedValue">False</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=Readit_002FResources_002FSearchLocalizer/@EntryIndexedValue">False</s:Boolean>

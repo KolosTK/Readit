@@ -132,8 +132,8 @@ else if (Model.Mode == "recommendations")
         let offset = 12;
         let loading = false;
         const localizedText = {
-            addToLibrary: @Html.Raw(Json.Serialize(Localizer["AddToLibraryText"])),
-            removeFromLibrary: @Html.Raw(Json.Serialize(Localizer["RemoveFromLibraryText"]))
+            addToLibrary: @Html.Raw(Json.Serialize(Localizer["AddToLibraryText"].Value)),
+            removeFromLibrary: @Html.Raw(Json.Serialize(Localizer["RemoveFromLibraryText"].Value))
         };
         
         window.addEventListener('scroll', async () => {
