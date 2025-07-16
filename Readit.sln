@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Readit.Models", "Readit.Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Readit.DataAccess", "Readit.DataAccess\Readit.DataAccess.csproj", "{ED0206E8-47EB-4262-A9AF-0AF4EEFABA18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Readit.Test", "Readit.Test\Readit.Test.csproj", "{93501DBA-CE79-4408-9308-FD79EE38543F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{ED0206E8-47EB-4262-A9AF-0AF4EEFABA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED0206E8-47EB-4262-A9AF-0AF4EEFABA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED0206E8-47EB-4262-A9AF-0AF4EEFABA18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93501DBA-CE79-4408-9308-FD79EE38543F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93501DBA-CE79-4408-9308-FD79EE38543F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93501DBA-CE79-4408-9308-FD79EE38543F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93501DBA-CE79-4408-9308-FD79EE38543F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

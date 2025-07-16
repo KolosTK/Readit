@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Readit")]
 [assembly: System.Reflection.AssemblyCopyrightAttribute(" ")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f98606f3354093d7d003ea5fa5252f6caf130566")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f9f3668d4545d8d21def48b65a7e6bdfc57f53df")]
 [assembly: System.Reflection.AssemblyProductAttribute("Readit")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Readit")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

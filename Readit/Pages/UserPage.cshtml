@@ -22,11 +22,11 @@
 }
 
 <div class="container my-4">
-    <div class="row mb-4 d-flex align-items-start" style="min-height: 140px;">
-    <div class="col-auto">
-            <div class="text-center">
+    <div class="row mb-4 align-items-stretch">
+        <div class="col-auto d-flex flex-column justify-content-center pe-4">
+            <div class="text-center h-100 d-flex flex-column justify-content-center">
                 <img src="/avatars/@Model.CurrentUser.AvatarFileName?ts=@DateTime.Now.Ticks"
-                     class="rounded-circle border"
+                     class="rounded-circle border mx-auto"
                      style="width: 140px; height: 140px; object-fit: cover;"
                      alt="Avatar" />
                 @if (Model.IsSelf)
@@ -36,27 +36,22 @@
                           asp-page-handler="UploadAvatar"
                           id="avatarForm"
                           class="mt-2">
-
                         <input type="file"
                                id="avatarInput"
                                name="AvatarUpload"
                                style="display:none;"
                                onchange="document.getElementById('avatarForm').submit();" />
-
                         <button type="button"
-                                class="btn btn-sm btn-outline-primary"
+                                class="btn btn-sm btn-outline-secondary"
                                 onclick="document.getElementById('avatarInput').click();">
                             @Localizer["Change Avatar"]
                         </button>
                     </form>
                 }
-
-
             </div>
-           
-
         </div>
-        <div class="col d-flex flex-column justify-content-center h-100">
+
+        <div class="col d-flex flex-column justify-content-center">
             <h2>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</h2>
 
             <p class="profile-stats">
@@ -71,9 +66,9 @@
 
             @if (!Model.IsSelf && User.Identity?.IsAuthenticated == true)
             {
-                @if (Model.IsFollowing)
+                if (Model.IsFollowing)
                 {
-                    <form method="post"         
+                    <form method="post"
                           asp-page-handler="Unfollow"
                           asp-route-id="@Model.CurrentUser.Id"
                           class="d-inline">
@@ -94,11 +89,10 @@
                     </form>
                 }
             }
-
         </div>
-       
-
     </div>
+
+    
 
     <h3>@Localizer["Library"]</h3>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -141,29 +135,37 @@
                 </div>
             </div>
 
-            <div class="card-footer bg-white border-0 mt-auto">
-            <button type="button"
-                    class="btn btn-sm w-100 btn-danger"
-                    onclick='event.stopPropagation(); toggleLibrary(this, {
-                        title: "@book.Title",
-                        authorName: @Html.Raw(Json.Serialize(book.Authors?.Split(", ").ToList() ?? new List<string>())),
-                        coverId: @(book.CoverId ?? 0),
-                        key: "@book.WorkKey"
-                    })'>
-            @Localizer["Remove"]
-        </button>
+                <div class="card-footer bg-white border-0 mt-auto">
+                    <div class="card-footer bg-white border-0 mt-auto">
+                        @if (Model.IsSelf)
+                        {
+                            <button type="button"
+                                    class="btn btn-sm w-100 btn-danger"
+                                    onclick='event.stopPropagation(); toggleLibrary(this, {
+                                        title: "@book.Title",
+                                    authorName: @Html.Raw(Json.Serialize(book.Authors?.Split(", ").ToList() ?? new List<string>())),
+                                    coverId: @(book.CoverId ?? 0),
+                                    key: "@book.WorkKey"
+                                    })'>
+                                @Localizer["Remove"]
+                            </button>
+                        }
 
-            <select class="form-select mt-2" onchange="updateStatus(this.value, '@book.WorkKey')">
-                @foreach (Readit.Models.ReadingStatus status in Enum.GetValues(typeof(Readit.Models.ReadingStatus)))
-                {
-                    <option value="@status" selected="@(book.Status == status)">
-                        @GetDisplayName(status)
-                    </option>
-                }
-            </select>
+                        <select class="form-select mt-2"
+                                @(Model.IsSelf ? "" : "disabled")
+                                onchange="updateStatus(this.value, '@book.WorkKey')">
+                            @foreach (Readit.Models.ReadingStatus status in Enum.GetValues(typeof(Readit.Models.ReadingStatus)))
+                            {
+                                <option value="@status" selected="@(book.Status == status)">
+                                    @GetDisplayName(status)
+                                </option>
+                            }
+                        </select>
+
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
         }
     </div>
@@ -216,5 +218,5 @@
 </style>
 }
 
-}
+
 

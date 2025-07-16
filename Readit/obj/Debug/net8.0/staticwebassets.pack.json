@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Readit.bundle.scp.css"
     },
     {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\1b23315a-8b89-40c6-bf91-cf412c5af25e.png",
+      "PackagePath": "staticwebassets\\avatars\\1b23315a-8b89-40c6-bf91-cf412c5af25e.png"
+    },
+    {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\21e57f77-7a2f-498e-9cff-48941ce75649.png",
       "PackagePath": "staticwebassets\\avatars\\21e57f77-7a2f-498e-9cff-48941ce75649.png"
     },
@@ -25,6 +29,10 @@
       "PackagePath": "staticwebassets\\avatars\\daa46e44-6f65-41c3-a07a-605e9eeccfea.png"
     },
     {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\dc03fc3e-ac61-4ee0-8119-c11bc4250286.jpg",
+      "PackagePath": "staticwebassets\\avatars\\dc03fc3e-ac61-4ee0-8119-c11bc4250286.jpg"
+    },
+    {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\avatars\\dc03fc3e-ac61-4ee0-8119-c11bc4250286.png",
       "PackagePath": "staticwebassets\\avatars\\dc03fc3e-ac61-4ee0-8119-c11bc4250286.png"
     },
@@ -41,8 +49,20 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\Background.png",
+      "PackagePath": "staticwebassets\\images\\Background.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\BackgroundLight.png",
+      "PackagePath": "staticwebassets\\images\\BackgroundLight.png"
+    },
+    {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\NoCover.png",
       "PackagePath": "staticwebassets\\images\\NoCover.png"
+    },
+    {
+      "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\images\\YellowIcon.png",
+      "PackagePath": "staticwebassets\\images\\YellowIcon.png"
     },
     {
       "Id": "D:\\Projects\\Readit\\Readit\\wwwroot\\js\\site.js",
