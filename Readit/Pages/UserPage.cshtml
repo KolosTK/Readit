@@ -135,29 +135,37 @@
                 </div>
             </div>
 
-            <div class="card-footer bg-white border-0 mt-auto">
-            <button type="button"
-                    class="btn btn-sm w-100 btn-danger"
-                    onclick='event.stopPropagation(); toggleLibrary(this, {
-                        title: "@book.Title",
-                        authorName: @Html.Raw(Json.Serialize(book.Authors?.Split(", ").ToList() ?? new List<string>())),
-                        coverId: @(book.CoverId ?? 0),
-                        key: "@book.WorkKey"
-                    })'>
-            @Localizer["Remove"]
-        </button>
+                <div class="card-footer bg-white border-0 mt-auto">
+                    <div class="card-footer bg-white border-0 mt-auto">
+                        @if (Model.IsSelf)
+                        {
+                            <button type="button"
+                                    class="btn btn-sm w-100 btn-danger"
+                                    onclick='event.stopPropagation(); toggleLibrary(this, {
+                                        title: "@book.Title",
+                                    authorName: @Html.Raw(Json.Serialize(book.Authors?.Split(", ").ToList() ?? new List<string>())),
+                                    coverId: @(book.CoverId ?? 0),
+                                    key: "@book.WorkKey"
+                                    })'>
+                                @Localizer["Remove"]
+                            </button>
+                        }
 
-            <select class="form-select mt-2" onchange="updateStatus(this.value, '@book.WorkKey')">
-                @foreach (Readit.Models.ReadingStatus status in Enum.GetValues(typeof(Readit.Models.ReadingStatus)))
-                {
-                    <option value="@status" selected="@(book.Status == status)">
-                        @GetDisplayName(status)
-                    </option>
-                }
-            </select>
+                        <select class="form-select mt-2"
+                                @(Model.IsSelf ? "" : "disabled")
+                                onchange="updateStatus(this.value, '@book.WorkKey')">
+                            @foreach (Readit.Models.ReadingStatus status in Enum.GetValues(typeof(Readit.Models.ReadingStatus)))
+                            {
+                                <option value="@status" selected="@(book.Status == status)">
+                                    @GetDisplayName(status)
+                                </option>
+                            }
+                        </select>
+
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
         }
     </div>

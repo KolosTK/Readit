@@ -68,10 +68,14 @@ public class Program
         app.UseStaticFiles();
         app.UseAuthentication(); 
         app.UseAuthorization();
+        app.MapGet("/", context =>
+        {
+            context.Response.Redirect("/UserPage");
+            return Task.CompletedTask;
+        });
 
         app.MapRazorPages();
-
-        await app.RunAsync(); 
+        await app.RunAsync();
     }
     
     private static async Task SeedRolesAndAdminAsync(IServiceProvider services)

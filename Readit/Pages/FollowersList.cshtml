@@ -19,28 +19,39 @@
                 <strong>@user.FirstName @user.LastName</strong>
             </div>
 
-            <div class="d-flex gap-2">
-                
+            @if (Model.CurrentUserId != user.Id)
+            {
+                <div class="d-flex gap-2 align-items-stretch" style="width: 320px;">
+                    <div class="flex-fill">
+                        @if (Model.FollowingIds.Contains(user.Id))
+                        {
+                            <form method="post" asp-page-handler="RemoveFriend" class="h-100">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm w-100 h-100">
+                                    @Localizer["Remove Friend"]
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form method="post" asp-page-handler="AddFriend" class="h-100">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-primary btn-sm w-100 h-100">
+                                    @Localizer["Add Friend"]
+                                </button>
+                            </form>
+                        }
+                    </div>
+                    <div class="flex-fill">
+                        <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary w-100 h-100">
+                            @Localizer["View Profile"]
+                        </a>
+                    </div>
+                </div>
 
-                @if (Model.CurrentUserId != user.Id)
-                {
-                    if (Model.FollowingIds.Contains(user.Id))
-                    {
-                        <form method="post" asp-page-handler="RemoveFriend">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-danger btn-sm">@Localizer["Remove Friend"]</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <form method="post" asp-page-handler="AddFriend">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button type="submit" class="btn btn-primary btn-sm">@Localizer["Add Friend"]</button>
-                        </form>
-                    }
-                    <a asp-page="/UserPage" asp-route-id="@user.Id" class="btn btn-outline-secondary">@Localizer["View Profile"]</a>
-                }
-            </div>
+            }
+
+
         </div>
     }
 
