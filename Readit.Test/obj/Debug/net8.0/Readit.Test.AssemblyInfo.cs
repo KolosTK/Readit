@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Readit.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c8487f1b581a9fdf2ebbf7c8c945a597c605a34")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f6b5f699f142dda8af9280d5f58da9f850237215")]
 [assembly: System.Reflection.AssemblyProductAttribute("Readit.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Readit.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
