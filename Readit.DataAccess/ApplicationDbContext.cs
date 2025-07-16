@@ -10,8 +10,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options) {}
-
-    public DbSet<Book> Books { get; set; }
     public DbSet<UserBook> UserBooks { get; set; }
     public DbSet<Comment> Comments { get; set; }
     
@@ -39,11 +37,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
             new IdentityRole { Id = "2", Name = "user", NormalizedName = "USER" }
         );
 
-        modelBuilder.Entity<Book>().HasData(new Book
-        {
-            Id = 1,
-            Title = "Test Book"
-        });
     }
 
 }
